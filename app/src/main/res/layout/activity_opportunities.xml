@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:background="@color/background">
 
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -14,44 +15,57 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:titleTextColor="@color/white"/>
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
+    <!-- Filter Chips -->
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
-        app:singleSelection="true">
+        android:padding="8dp"
+        android:scrollbars="none">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipAll"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="All"
-            android:checked="true"/>
+            android:orientation="horizontal"
+            app:singleSelection="true">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipCourses"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Courses"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white"
+                android:checked="true"/>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipInternships"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Internships"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCourses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Courses"
+                android:backgroundTint="@color/success"
+                android:textColor="@color/white"/>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipHackathons"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hackathons"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipInternships"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Internships"
+                android:backgroundTint="@color/secondary"
+                android:textColor="@color/white"/>
 
-    </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipHackathons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hackathons"
+                android:backgroundTint="@color/primary_dark"
+                android:textColor="@color/white"/>
 
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
+    <!-- No Results Text -->
     <TextView
         android:id="@+id/tvNoResults"
         android:layout_width="match_parent"
@@ -63,10 +77,12 @@
         android:textSize="16sp"
         android:textColor="@color/text_secondary"/>
 
+    <!-- Opportunities RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvOpportunities"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="12dp"/>
+        android:padding="12dp"
+        android:clipToPadding="false"/>
 
 </LinearLayout>

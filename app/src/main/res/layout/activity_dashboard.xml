@@ -161,6 +161,17 @@
             app:iconGravity="textStart"/>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSemesterGuide"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="📚 Semester Preparation Guide"
+            android:textSize="15sp"
+            app:cornerRadius="12dp"
+            android:layout_marginBottom="12dp"
+            app:icon="@android:drawable/ic_menu_agenda"
+            app:iconGravity="textStart"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAssistant"
             android:layout_width="match_parent"
             android:layout_height="56dp"

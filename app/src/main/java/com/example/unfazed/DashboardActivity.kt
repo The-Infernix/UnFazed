@@ -72,8 +72,6 @@ class DashboardActivity : AppCompatActivity() {
             else -> 0
         }
         tvProgress.text = "$progress%"
-
-        // You can update the circular progress bar here if you add one
     }
 
     private fun setupClickListeners() {
@@ -83,6 +81,17 @@ class DashboardActivity : AppCompatActivity() {
                 putExtra("branch", branch)
                 putExtra("goal", goal)
                 putExtra("year", year)
+                putExtra("name", name)
+            }
+            startActivity(intent)
+        }
+
+        // Semester Guide Button - ADD THIS
+        findViewById<MaterialButton>(R.id.btnSemesterGuide).setOnClickListener {
+            val intent = Intent(this, SemesterGuideActivity::class.java).apply {
+                putExtra("branch", branch)
+                putExtra("year", year)
+                putExtra("goal", goal)
                 putExtra("name", name)
             }
             startActivity(intent)
