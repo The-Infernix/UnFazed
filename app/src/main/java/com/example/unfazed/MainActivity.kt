@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -20,11 +21,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 🚀 CHECK IF USER IS ALREADY LOGGED IN!
+        // 🚀 CHECK IF USER IS ALREADY LOGGED IN
         val prefs = getSharedPreferences("UnfazedPrefs", Context.MODE_PRIVATE)
         if (prefs.getBoolean("isLoggedIn", false)) {
             startActivity(Intent(this, DashboardActivity::class.java))
-            finish() // Close MainActivity so they can't hit 'back' to return here
+            finish()
             return
         }
 
@@ -56,12 +57,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         btnContinue.setOnClickListener {
-            val name = etName.text.toString().ifEmpty { "Student" }
+            val name = etName.text.toString().trim()
             val branch = spinnerBranch.text.toString()
             val year = spinnerYear.text.toString()
             val goal = spinnerGoal.text.toString()
 
-            if (branch.isEmpty() || year.isEmpty() || goal.isEmpty()) return@setOnClickListener
+            // ⚠️ UX FIX: Warn the user if they miss a field
+            if (name.isEmpty() || branch.isEmpty() || year.isEmpty() || goal.isEmpty()) {
+                Toast.makeText(this, "Please fill out all fields to continue", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             // 💾 SAVE DATA TO DEVICE FOREVER
             val prefs = getSharedPreferences("UnfazedPrefs", Context.MODE_PRIVATE)
@@ -75,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             startActivity(Intent(this, DashboardActivity::class.java))
-            finish() // Close this screen forever
+            finish()
         }
     }
 }
