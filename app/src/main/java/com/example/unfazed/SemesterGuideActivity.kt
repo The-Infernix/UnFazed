@@ -24,44 +24,87 @@ class SemesterGuideActivity : AppCompatActivity() {
     private lateinit var tvTimetable: TextView
     private lateinit var tvWeeklyPlan: TextView
     private lateinit var tvTips: TextView
+    private lateinit var tvSyllabusBreakdown: TextView
 
     private var branch = ""
     private var year = ""
-    private var selectedSemester = 1
+    private var selectedSemester = 5
     private var daysLeft = 60
-    private var studyHoursPerDay = 4.0f  // Changed to Float
+    private var studyHoursPerDay = 4.0f
 
-    // Subject data for each branch and semester
-    private val subjectData = mapOf(
-        "CSE" to mapOf(
-            1 to listOf("Programming Fundamentals", "Engineering Mathematics-I", "Physics", "Basic Electrical Engineering", "English", "Environmental Science"),
-            2 to listOf("Data Structures", "Engineering Mathematics-II", "Chemistry", "Object Oriented Programming", "Digital Logic Design", "Communication Skills"),
-            3 to listOf("Discrete Mathematics", "Database Management Systems", "Computer Organization", "Operating Systems", "Python Programming", "Probability & Statistics"),
-            4 to listOf("Design & Analysis of Algorithms", "Software Engineering", "Computer Networks", "Microprocessors", "Theory of Computation", "Management Skills"),
-            5 to listOf("Artificial Intelligence", "Web Technologies", "Compiler Design", "Information Security", "Cloud Computing", "Elective-I"),
-            6 to listOf("Machine Learning", "Big Data Analytics", "Mobile App Development", "Computer Graphics", "Elective-II", "Open Elective"),
-            7 to listOf("Deep Learning", "Internet of Things", "Blockchain Technology", "Project Work-I", "Elective-III", "Industrial Training"),
-            8 to listOf("Major Project", "Internship", "Technical Seminar", "Comprehensive Viva", "Elective-IV", "Entrepreneurship")
+    // 5th Semester Subjects with detailed topics
+    private val semester5Subjects = mapOf(
+        "Data Communications & Computer Networks" to listOf(
+            "Network Models (OSI, TCP/IP)",
+            "Analog/Digital Transmission",
+            "Flow & Error Control",
+            "Signal Encoding",
+            "Multiplexing (FDM, TDM)",
+            "Wireless LAN (802.11)",
+            "Routing & Congestion Control",
+            "IP Protocol & Addressing",
+            "TCP & UDP"
         ),
-        "ECE" to mapOf(
-            1 to listOf("Engineering Mathematics-I", "Physics", "Basic Electronics", "Network Theory", "English", "Programming in C"),
-            2 to listOf("Engineering Mathematics-II", "Chemistry", "Electronic Devices", "Signals & Systems", "Digital Electronics", "Python Programming"),
-            3 to listOf("Analog Circuits", "Pulse & Digital Circuits", "Electromagnetic Fields", "Control Systems", "Measurements & Instrumentation", "Probability & Statistics"),
-            4 to listOf("Linear IC Applications", "Digital Signal Processing", "Microprocessors", "Communication Systems", "VLSI Design", "Management Skills"),
-            5 to listOf("Embedded Systems", "Antenna & Wave Propagation", "Optical Communications", "Wireless Communications", "Elective-I", "Open Elective"),
-            6 to listOf("Microwave Engineering", "Satellite Communication", "CMOS Design", "Image Processing", "Elective-II", "Industrial Training"),
-            7 to listOf("IoT & Applications", "Robotics", "Project Work-I", "Elective-III", "Elective-IV", "Technical Seminar"),
-            8 to listOf("Major Project", "Internship", "Comprehensive Viva", "Advanced Communication Systems", "Elective-V", "Entrepreneurship")
+        "Artificial Intelligence" to listOf(
+            "State Space Search",
+            "BFS, DFS, Hill Climbing",
+            "A* & AO* Search",
+            "Constraint Satisfaction",
+            "Predicate Logic & Resolution",
+            "Bayesian Inference",
+            "Fuzzy Logic",
+            "Semantic Nets & Frames",
+            "NLP Fundamentals",
+            "Expert Systems"
         ),
-        "EEE" to mapOf(
-            1 to listOf("Engineering Mathematics-I", "Physics", "Basic Electrical Engineering", "Network Theory", "English", "Programming in C"),
-            2 to listOf("Engineering Mathematics-II", "Chemistry", "Electromagnetic Fields", "Electrical Machines-I", "Digital Electronics", "Python Programming"),
-            3 to listOf("Electrical Machines-II", "Power Systems-I", "Control Systems", "Measurements", "Analog Electronics", "Probability & Statistics"),
-            4 to listOf("Power Electronics", "Power Systems-II", "Microcontrollers", "Signal Processing", "Management Skills", "Open Elective"),
-            5 to listOf("High Voltage Engineering", "Switchgear & Protection", "Renewable Energy", "Electrical Drives", "Elective-I", "Industrial Training"),
-            6 to listOf("Smart Grid", "HVDC Transmission", "Power Quality", "Energy Management", "Elective-II", "Open Elective"),
-            7 to listOf("Project Work-I", "Elective-III", "Elective-IV", "Technical Seminar", "Industrial Safety", "Entrepreneurship"),
-            8 to listOf("Major Project", "Internship", "Comprehensive Viva", "Power System Operation", "Elective-V", "Management")
+        "Compiler Design" to listOf(
+            "Compiler Phases",
+            "Lexical Analysis & LEX",
+            "Syntax Analysis (Top-down)",
+            "Syntax Analysis (Bottom-up)",
+            "Semantic Analysis",
+            "Intermediate Code Generation",
+            "Code Optimization",
+            "Code Generation",
+            "Symbol Tables"
+        )
+    )
+
+    // Topic weights for prioritization (based on complexity)
+    private val topicWeights = mapOf(
+        "Data Communications & Computer Networks" to mapOf(
+            "Network Models (OSI, TCP/IP)" to 8,
+            "Analog/Digital Transmission" to 6,
+            "Flow & Error Control" to 9,
+            "Signal Encoding" to 7,
+            "Multiplexing (FDM, TDM)" to 7,
+            "Wireless LAN (802.11)" to 8,
+            "Routing & Congestion Control" to 9,
+            "IP Protocol & Addressing" to 8,
+            "TCP & UDP" to 9
+        ),
+        "Artificial Intelligence" to mapOf(
+            "State Space Search" to 7,
+            "BFS, DFS, Hill Climbing" to 6,
+            "A* & AO* Search" to 8,
+            "Constraint Satisfaction" to 7,
+            "Predicate Logic & Resolution" to 9,
+            "Bayesian Inference" to 8,
+            "Fuzzy Logic" to 7,
+            "Semantic Nets & Frames" to 6,
+            "NLP Fundamentals" to 8,
+            "Expert Systems" to 7
+        ),
+        "Compiler Design" to mapOf(
+            "Compiler Phases" to 6,
+            "Lexical Analysis & LEX" to 8,
+            "Syntax Analysis (Top-down)" to 9,
+            "Syntax Analysis (Bottom-up)" to 9,
+            "Semantic Analysis" to 8,
+            "Intermediate Code Generation" to 8,
+            "Code Optimization" to 7,
+            "Code Generation" to 7,
+            "Symbol Tables" to 6
         )
     )
 
@@ -82,7 +125,7 @@ class SemesterGuideActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Smart Semester Planner"
+        supportActionBar?.title = "5th Semester Smart Planner"
     }
 
     private fun initViews() {
@@ -98,40 +141,30 @@ class SemesterGuideActivity : AppCompatActivity() {
         tvTimetable = findViewById(R.id.tvTimetable)
         tvWeeklyPlan = findViewById(R.id.tvWeeklyPlan)
         tvTips = findViewById(R.id.tvTips)
+        tvSyllabusBreakdown = findViewById(R.id.tvSyllabusBreakdown)
     }
 
     private fun setupListeners() {
-        // Semester selection
         chipGroupSemester.setOnCheckedStateChangeListener { _, checkedIds ->
             if (checkedIds.isNotEmpty()) {
                 val chip = findViewById<Chip>(checkedIds[0])
                 selectedSemester = when (chip.text.toString()) {
-                    "Semester 1" -> 1
-                    "Semester 2" -> 2
-                    "Semester 3" -> 3
-                    "Semester 4" -> 4
                     "Semester 5" -> 5
-                    "Semester 6" -> 6
-                    "Semester 7" -> 7
-                    "Semester 8" -> 8
-                    else -> 1
+                    else -> 5
                 }
             }
         }
 
-        // Days left slider
         sliderDaysLeft.addOnChangeListener { _, value, _ ->
             daysLeft = value.toInt()
             tvDaysLeft.text = "$daysLeft days left for exam"
         }
 
-        // Study hours slider - FIXED: value is Float, studyHoursPerDay is Float
         sliderStudyHours.addOnChangeListener { _, value, _ ->
-            studyHoursPerDay = value  // Now works - both are Float
+            studyHoursPerDay = value
             tvStudyHours.text = String.format("%.1f hours/day", studyHoursPerDay)
         }
 
-        // Generate button
         btnGenerate.setOnClickListener {
             generateSmartTimetable()
             layoutTimetable.visibility = LinearLayout.VISIBLE
@@ -139,202 +172,283 @@ class SemesterGuideActivity : AppCompatActivity() {
     }
 
     private fun preSelectSemester() {
-        // Auto-select semester based on year
-        val semester = when {
-            year.contains("1st") -> 1
-            year.contains("2nd") -> 3
-            year.contains("3rd") -> 5
-            year.contains("4th") -> 7
-            else -> 1
-        }
-
-        val chipId = when (semester) {
-            1 -> R.id.chipSem1
-            2 -> R.id.chipSem2
-            3 -> R.id.chipSem3
-            4 -> R.id.chipSem4
-            5 -> R.id.chipSem5
-            6 -> R.id.chipSem6
-            7 -> R.id.chipSem7
-            8 -> R.id.chipSem8
-            else -> R.id.chipSem1
-        }
-
-        findViewById<Chip>(chipId).isChecked = true
-        selectedSemester = semester
+        val chipSem5 = findViewById<Chip>(R.id.chipSem5)
+        chipSem5.isChecked = true
+        selectedSemester = 5
     }
 
     private fun generateSmartTimetable() {
-        val subjects = getSubjectsForSemester()
-        val strategy = generateExamStrategy()
+        val subjects = semester5Subjects.keys.toList()
+        val strategy = generateExamStrategy(subjects)  // FIXED: Pass subjects parameter
         val timetable = generateDailyTimetable(subjects)
         val weeklyPlan = generateWeeklyPlan(subjects)
         val tips = generateStudyTips()
+        val syllabusBreakdown = generateSyllabusBreakdown()
 
         tvStrategy.text = strategy
-        tvSubjects.text = subjects.joinToString("\n") { "• $it" }
+        tvSubjects.text = generateSubjectsWithTopics(subjects)
         tvTimetable.text = timetable
         tvWeeklyPlan.text = weeklyPlan
         tvTips.text = tips
+        tvSyllabusBreakdown.text = syllabusBreakdown
     }
 
-    private fun getSubjectsForSemester(): List<String> {
-        val branchSubjects = subjectData[branch] ?: subjectData["CSE"]!!
-        return branchSubjects[selectedSemester] ?: branchSubjects[1]!!
+    private fun generateSubjectsWithTopics(subjects: List<String>): String {
+        return buildString {
+            subjects.forEach { subject ->
+                appendLine("📖 $subject")
+                appendLine("   Topics:")
+                semester5Subjects[subject]?.forEach { topic ->
+                    appendLine("   • $topic")
+                }
+                appendLine()
+            }
+        }
     }
 
-    private fun generateExamStrategy(): String {
-        val weeksLeft = daysLeft / 7
-        val hoursPerWeek = studyHoursPerDay * 7
-        val totalHours = daysLeft * studyHoursPerDay
+    // FIXED: Added subjects parameter
+    private fun generateExamStrategy(subjects: List<String>): String {
+        val totalTopics = semester5Subjects.values.flatten().size
+        val topicsPerDay = (totalTopics.toFloat() / daysLeft).coerceAtLeast(0.5f)
+        val hoursPerTopic = studyHoursPerDay / topicsPerDay
 
         return buildString {
-            appendLine("🎯 Based on your schedule:")
+            appendLine("🎯 5th Semester Exam Strategy")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
+            appendLine()
+            appendLine("📊 Your Timeline:")
             appendLine("• Days left: $daysLeft days")
             appendLine("• Study hours/day: ${String.format("%.1f", studyHoursPerDay)} hours")
-            appendLine("• Total study time: ${String.format("%.0f", totalHours)} hours")
+            appendLine("• Total study time: ${String.format("%.0f", daysLeft * studyHoursPerDay)} hours")
+            appendLine("• Total topics to cover: $totalTopics")
+            appendLine("• Topics per day: ${String.format("%.1f", topicsPerDay)}")
+            appendLine("• Hours per topic: ${String.format("%.1f", hoursPerTopic)}")
             appendLine()
 
             when {
-                daysLeft > 90 -> {
-                    appendLine("📌 Phase 1 (Days 1-${daysLeft - 60}): Concept Building")
-                    appendLine("   • Focus on understanding core concepts")
-                    appendLine("   • Take detailed notes")
-                    appendLine("   • Watch video lectures")
+                daysLeft > 120 -> {
+                    appendLine("📌 Phase 1 (Days 1-${daysLeft - 90}): Deep Learning")
+                    appendLine("   • Master all 3 subjects thoroughly")
+                    appendLine("   • Focus on understanding concepts")
+                    appendLine("   • Solve numerical problems")
                     appendLine()
-                    appendLine("📌 Phase 2 (Last 60 days): Intensive Practice")
-                    appendLine("   • Solve problems daily")
-                    appendLine("   • Take weekly tests")
-                    appendLine("   • Revise weak topics")
+                    appendLine("📌 Phase 2 (Next 60 days): Practice & Revision")
+                    appendLine("   • Solve previous year papers")
+                    appendLine("   • Practice important topics")
+                    appendLine()
+                    appendLine("📌 Phase 3 (Last 30 days): Intensive Revision")
+                    appendLine("   • Focus on weak areas")
+                    appendLine("   • Take mock tests")
+                }
+                daysLeft in 91..120 -> {
+                    appendLine("📌 Phase 1 (Days 1-${daysLeft - 60}): Complete Syllabus")
+                    appendLine("   • Cover all topics systematically")
+                    appendLine("   • Practice numericals daily")
+                    appendLine()
+                    appendLine("📌 Phase 2 (Last 60 days): Revision & Testing")
+                    appendLine("   • Solve 5 years PYQs")
+                    appendLine("   • Take weekly mock tests")
                 }
                 daysLeft in 61..90 -> {
-                    appendLine("📌 Phase 1 (Days 1-${daysLeft - 30}): Complete Syllabus")
-                    appendLine("   • Cover remaining topics")
-                    appendLine("   • Practice concept-wise problems")
+                    appendLine("📌 Phase 1 (Days 1-${daysLeft - 30}): Rapid Coverage")
+                    appendLine("   • Cover high-weightage topics first")
+                    appendLine("   • Focus on important concepts")
                     appendLine()
-                    appendLine("📌 Phase 2 (Last 30 days): Revision & Testing")
-                    appendLine("   • Solve previous year papers")
-                    appendLine("   • Take mock tests")
-                    appendLine("   • Focus on weak areas")
+                    appendLine("📌 Phase 2 (Last 30 days): Smart Revision")
+                    appendLine("   • Solve PYQs (last 3 years)")
+                    appendLine("   • Take mock tests every 3 days")
                 }
                 daysLeft in 31..60 -> {
-                    appendLine("⚠️ Time is limited! Focus on:")
-                    appendLine("• High-weightage topics first")
-                    appendLine("• Solve problems daily (2-3 hours)")
-                    appendLine("• Take mock tests every 3 days")
-                    appendLine("• Revise formulas/concepts daily")
+                    appendLine("⚠️ Intensive Preparation Mode:")
+                    appendLine("• Focus only on high-priority topics")
+                    appendLine("• Solve problems from each unit")
+                    appendLine("• Take mock tests every 2 days")
+                    appendLine("• Revise formulas daily")
                 }
                 daysLeft <= 30 -> {
-                    appendLine("🚨 CRITICAL - Last minute preparation:")
-                    appendLine("• Only revise what you already know")
+                    appendLine("🚨 CRITICAL - Last Minute Strategy:")
+                    appendLine("• ONLY revise what you already know")
                     appendLine("• Solve 1 full test daily")
                     appendLine("• Don't learn new topics")
                     appendLine("• Focus on time management")
-                    appendLine("• Take care of health!")
+                    appendLine("• Review important formulas")
                 }
             }
 
             appendLine()
-            appendLine("📊 Recommended weekly schedule:")
-            appendLine("• New topics: ${String.format("%.1f", hoursPerWeek * 0.5)} hours")
-            appendLine("• Practice: ${String.format("%.1f", hoursPerWeek * 0.3)} hours")
-            appendLine("• Revision: ${String.format("%.1f", hoursPerWeek * 0.2)} hours")
+            appendLine("📊 Weekly Target:")
+            appendLine("• Subjects to cover: ${(3.0 * (7.0 / daysLeft)).coerceAtMost(3.0).toInt()}")
+            appendLine("• Problems to solve: ${(studyHoursPerDay * 7 * 5).toInt()}")
+            appendLine("• Mock tests: ${if (daysLeft > 60) 1 else 2}")
         }
     }
 
     private fun generateDailyTimetable(subjects: List<String>): String {
         val hoursPerSubject = studyHoursPerDay / subjects.size
-        val prioritySubjects = subjects.take(3)
+        val prioritySubjects = prioritizeSubjects(subjects)
 
         return buildString {
-            appendLine("⏰ Your Daily Study Schedule (${String.format("%.1f", studyHoursPerDay)} hours)")
+            appendLine("⏰ Your Personalized Daily Timetable")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
             appendLine()
             appendLine("🌅 Morning Session (6:00 AM - 9:00 AM):")
             appendLine("   • 6:00-6:30: Wake up & Exercise")
-            appendLine("   • 6:30-7:30: Study ${prioritySubjects[0]} (${String.format("%.1f", hoursPerSubject)} hour)")
-            appendLine("   • 7:30-8:30: Study ${prioritySubjects[1]} (${String.format("%.1f", hoursPerSubject)} hour)")
+            appendLine("   • 6:30-7:30: ${prioritySubjects[0]} (${String.format("%.1f", hoursPerSubject)} hour)")
+            appendLine("   • 7:30-8:30: ${prioritySubjects[1]} (${String.format("%.1f", hoursPerSubject)} hour)")
             appendLine("   • 8:30-9:00: Breakfast & College prep")
             appendLine()
             appendLine("📚 College Hours (9:00 AM - 5:00 PM):")
-            appendLine("   • Attend all lectures actively")
+            appendLine("   • Attend all ${prioritySubjects[0]} lectures")
             appendLine("   • Take notes and clarify doubts")
-            appendLine("   • Utilize free periods for revision")
+            appendLine("   • Utilize free periods for ${prioritySubjects[1]} revision")
             appendLine()
             appendLine("🌙 Evening Session (5:00 PM - 10:00 PM):")
             appendLine("   • 5:00-6:00: Rest & Refresh")
             appendLine("   • 6:00-7:00: Practice problems (${prioritySubjects[0]})")
-            appendLine("   • 7:00-8:00: Study ${prioritySubjects[2]} (${String.format("%.1f", hoursPerSubject)} hour)")
-
-            if (subjects.size > 3) {
-                appendLine("   • 8:00-9:00: Revise remaining subjects")
-            }
-
+            appendLine("   • 7:00-8:00: ${prioritySubjects[2]} (${String.format("%.1f", hoursPerSubject)} hour)")
+            appendLine("   • 8:00-9:00: Solve numericals (${prioritySubjects[1]})")
             appendLine("   • 9:00-10:00: Plan next day & Relax")
             appendLine()
             appendLine("💤 Night Routine:")
             appendLine("   • 10:00 PM: Stop studying")
-            appendLine("   • 10:00-10:30: Light reading/Meditation")
+            appendLine("   • 10:00-10:30: Quick revision of formulas")
             appendLine("   • 10:30 PM: Sleep (7-8 hours essential)")
+            appendLine()
+            appendLine("📌 Subject Focus Areas:")
+            appendLine("   • ${prioritySubjects[0]}: Theory + Numericals")
+            appendLine("   • ${prioritySubjects[1]}: Problem Solving")
+            appendLine("   • ${prioritySubjects[2]}: Concept Building")
+        }
+    }
+
+    private fun prioritizeSubjects(subjects: List<String>): List<String> {
+        // Prioritize based on complexity and importance
+        return when {
+            daysLeft <= 30 -> listOf(
+                "Compiler Design",
+                "Data Communications & Computer Networks",
+                "Artificial Intelligence"
+            )
+            daysLeft <= 60 -> listOf(
+                "Compiler Design",
+                "Artificial Intelligence",
+                "Data Communications & Computer Networks"
+            )
+            else -> subjects
         }
     }
 
     private fun generateWeeklyPlan(subjects: List<String>): String {
-        val prioritySubjects = subjects.take(4)
+        val prioritySubjects = prioritizeSubjects(subjects)
 
         return buildString {
-            appendLine("📅 Weekly Study Rotation:")
+            appendLine("📅 5th Semester Weekly Study Plan")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
             appendLine()
             appendLine("Monday - Wednesday:")
-            appendLine("   • Focus: ${prioritySubjects[0]}")
-            appendLine("   • Complete 2 chapters")
-            appendLine("   • Solve 30 problems")
+            appendLine("   📖 Focus: ${prioritySubjects[0]}")
+            appendLine("   • Complete 3-4 topics")
+            appendLine("   • Solve 20 problems")
+            appendLine("   • Revise previous topics")
+            appendLine("   • ${getSpecificTopicsForSubject(prioritySubjects[0])}")
             appendLine()
             appendLine("Thursday - Saturday:")
-            appendLine("   • Focus: ${prioritySubjects[1]}")
-            appendLine("   • Complete 2 chapters")
-            appendLine("   • Solve 30 problems")
+            appendLine("   📖 Focus: ${prioritySubjects[1]}")
+            appendLine("   • Complete 3-4 topics")
+            appendLine("   • Solve 20 problems")
+            appendLine("   • Practice numericals")
+            appendLine("   • ${getSpecificTopicsForSubject(prioritySubjects[1])}")
             appendLine()
             appendLine("Sunday:")
-            appendLine("   • Morning: Revise all weekly topics")
-            appendLine("   • Afternoon: Take mock test")
-            appendLine("   • Evening: Analyze mistakes")
-            appendLine("   • Night: Plan next week")
+            appendLine("   🌅 Morning: ${prioritySubjects[2]} Revision")
+            appendLine("   📝 Afternoon: Full Syllabus Mock Test")
+            appendLine("   📊 Evening: Analyze mistakes")
+            appendLine("   📅 Night: Plan next week's targets")
             appendLine()
-            appendLine("📌 Daily Minimum Targets:")
-            appendLine("   • Learn 1 new concept")
-            appendLine("   • Solve 10 problems")
-            appendLine("   • Revise 2 previous topics")
-            appendLine("   • Practice 10 formulas")
+            appendLine("📌 Weekly Targets:")
+            appendLine("   • Topics to complete: 10-12")
+            appendLine("   • Problems to solve: 60-80")
+            appendLine("   • Mock tests: 1-2")
+            appendLine("   • Formula revision: Daily 15 min")
+        }
+    }
+
+    private fun getSpecificTopicsForSubject(subject: String): String {
+        return when (subject) {
+            "Compiler Design" -> "   • Focus: Syntax Analysis, Code Optimization"
+            "Artificial Intelligence" -> "   • Focus: Search Algorithms, NLP, Expert Systems"
+            "Data Communications & Computer Networks" -> "   • Focus: TCP/IP, Routing, Network Models"
+            else -> "   • Cover all important topics"
+        }
+    }
+
+    private fun generateSyllabusBreakdown(): String {
+        return buildString {
+            appendLine("📚 Detailed Syllabus Breakdown")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
+            appendLine()
+
+            semester5Subjects.forEach { (subject, topics) ->
+                appendLine("🔹 $subject")
+                appendLine("   ━━━━━━━━━━━━━━━━━━━")
+                topics.forEachIndexed { index, topic ->
+                    val weight = topicWeights[subject]?.get(topic) ?: 5
+                    val priority = when {
+                        weight >= 8 -> "⭐ HIGH PRIORITY"
+                        weight >= 6 -> "🟡 Medium Priority"
+                        else -> "🟢 Normal"
+                    }
+                    appendLine("   ${index + 1}. $topic - $priority")
+                }
+                appendLine()
+            }
+
+            appendLine("💡 Exam Pattern Tips:")
+            appendLine("   • DCCN: Theory 60% + Numericals 40%")
+            appendLine("   • AI: Concepts 70% + Problem Solving 30%")
+            appendLine("   • CD: Technical 80% + Application 20%")
         }
     }
 
     private fun generateStudyTips(): String {
         return buildString {
-            appendLine("💡 Exam Success Tips:")
+            appendLine("💡 Smart Study Tips for 5th Semester")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
             appendLine()
-            appendLine("🎯 Smart Study Techniques:")
-            appendLine("• Pomodoro: 50 min study + 10 min break")
-            appendLine("• Active recall - test yourself")
-            appendLine("• Spaced repetition for revision")
-            appendLine("• Teach concepts to others")
+            appendLine("🎯 Subject-Wise Strategy:")
             appendLine()
-            appendLine("📱 Best Apps for Study:")
-            appendLine("• Forest - Beat phone addiction")
-            appendLine("• Anki - Flashcards for revision")
-            appendLine("• Notion - Organize notes")
-            appendLine("• YouTube - NPTEL video lectures")
+            appendLine("📡 Data Communications & Computer Networks:")
+            appendLine("   • Draw OSI/TCP/IP diagrams daily")
+            appendLine("   • Practice numerical problems")
+            appendLine("   • Use mnemonics for protocols")
+            appendLine()
+            appendLine("🤖 Artificial Intelligence:")
+            appendLine("   • Implement search algorithms on paper")
+            appendLine("   • Practice logic problems")
+            appendLine("   • Understand real-world applications")
+            appendLine()
+            appendLine("⚙️ Compiler Design:")
+            appendLine("   • Practice parsing examples")
+            appendLine("   • Draw compiler phases diagram")
+            appendLine("   • Solve optimization problems")
+            appendLine()
+            appendLine("📱 Best Resources:")
+            appendLine("   • DCCN: Tanenbaum, Kurose")
+            appendLine("   • AI: Russell & Norvig")
+            appendLine("   • CD: Aho, Ullman (Dragon Book)")
+            appendLine("   • YouTube: NPTEL lectures")
             appendLine()
             appendLine("⚠️ Common Mistakes to Avoid:")
-            appendLine("• Don't study new topics last week")
-            appendLine("• Avoid all-nighters before exam")
-            appendLine("• Don't skip sleep/meals")
-            appendLine("• Stop comparing with others")
+            appendLine("   • Don't skip numerical problems in DCCN")
+            appendLine("   • Don't memorize AI algorithms without understanding")
+            appendLine("   • Don't ignore compiler phases sequence")
+            appendLine("   • Avoid last-minute learning in CD")
             appendLine()
             appendLine("✅ Last Week Strategy:")
-            appendLine("• Only revise what you know")
-            appendLine("• Take 1 full test daily")
-            appendLine("• Stay calm and confident")
-            appendLine("• Reach exam center early")
+            appendLine("   • Only revise what you know")
+            appendLine("   • Focus on high-weightage topics")
+            appendLine("   • Practice time management")
+            appendLine("   • Stay calm and confident")
         }
     }
 
