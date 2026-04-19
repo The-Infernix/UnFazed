@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Getting a personalized study timetable based on your semester and exam schedule"
+                android:text="Get a personalized study timetable based on your semester and exam schedule"
                 android:textSize="14sp"
                 android:textColor="@color/text_secondary"
                 android:layout_marginBottom="24dp"/>
