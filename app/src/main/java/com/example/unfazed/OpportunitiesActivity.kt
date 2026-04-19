@@ -11,11 +11,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.text.SimpleDateFormat
-import java.util.*
 
 class OpportunitiesActivity : AppCompatActivity() {
 
@@ -71,7 +68,10 @@ class OpportunitiesActivity : AppCompatActivity() {
     }
 
     private fun filterOpportunities() {
-        val allOpportunities = getAllOpportunities()
+        // Fetch data and dynamically sort by the highest match score
+        val allOpportunities = getDynamicOpportunities(branch, goal)
+            .sortedByDescending { it.matchScore }
+
         val filtered = if (currentFilter == "All") {
             allOpportunities
         } else {
@@ -88,158 +88,187 @@ class OpportunitiesActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAllOpportunities(): List<Opportunity> {
-        return listOf(
-            // Courses
-            Opportunity(
-                title = "Data Structures & Algorithms Masterclass",
-                type = "Course",
-                provider = "Coursera",
-                deadline = "Start anytime",
-                link = "https://coursera.org",
-                matchScore = 95,
-                description = "Complete DSA course with 200+ problems. Perfect for placement preparation.",
-                duration = "3 months",
-                level = "Beginner to Advanced",
-                tags = listOf("DSA", "Placements", "Coding")
-            ),
-            Opportunity(
-                title = "Machine Learning Specialization",
-                type = "Course",
-                provider = "Andrew Ng, DeepLearning.AI",
-                deadline = "Rolling admission",
-                link = "https://coursera.org",
-                matchScore = 88,
-                description = "Master ML algorithms and build real-world projects.",
-                duration = "4 months",
-                level = "Intermediate",
-                tags = listOf("AI", "ML", "Python")
-            ),
-            Opportunity(
-                title = "GATE CS Complete Preparation",
-                type = "Course",
-                provider = "Unacademy",
-                deadline = "New batch: April 1",
-                link = "https://unacademy.com",
-                matchScore = if (goal.contains("GATE")) 98 else 75,
-                description = "Full syllabus coverage with mock tests and PYQs.",
-                duration = "6 months",
-                level = "All Levels",
-                tags = listOf("GATE", "CS", "Exam Prep")
-            ),
-            Opportunity(
-                title = "Web Development Bootcamp",
-                type = "Course",
-                provider = "Udemy",
-                deadline = "Sale ends soon",
-                link = "https://udemy.com",
-                matchScore = 85,
-                description = "Full-stack development with MERN stack. Build 10+ projects.",
-                duration = "2 months",
-                level = "Beginner",
-                tags = listOf("Web Dev", "React", "Node.js")
-            ),
+    // 🧠 Dynamic Database and Match Scoring
+    private fun getDynamicOpportunities(userBranch: String, userGoal: String): List<Opportunity> {
+        val opportunities = mutableListOf<Opportunity>()
 
-            // Internships
-            Opportunity(
-                title = "Software Engineering Intern",
-                type = "Internship",
-                provider = "Google",
-                deadline = "Apply by May 15",
-                link = "https://careers.google.com",
-                matchScore = 92,
-                description = "Summer internship 2024. Work on real products with Google engineers.",
-                duration = "3 months",
-                level = "2nd/3rd Year",
-                tags = listOf("Paid", "Remote/Hybrid", "Top Company")
-            ),
-            Opportunity(
-                title = "Microsoft Learn Student Ambassador",
-                type = "Internship",
-                provider = "Microsoft",
-                deadline = "Applications open",
-                link = "https://studentambassadors.microsoft.com",
-                matchScore = 87,
-                description = "Lead tech communities on campus, get Microsoft certification.",
-                duration = "1 year",
-                level = "All Years",
-                tags = listOf("Leadership", "Community", "Microsoft")
-            ),
-            Opportunity(
-                title = "Research Intern - AI/ML",
-                type = "Internship",
-                provider = "IIIT Hyderabad",
-                deadline = "April 30",
-                link = "https://iiit.ac.in",
-                matchScore = 84,
-                description = "Summer research internship in AI/ML with stipend.",
-                duration = "2 months",
-                level = "3rd Year+",
-                tags = listOf("Research", "Stipend", "AI/ML")
-            ),
-            Opportunity(
-                title = "Product Management Intern",
-                type = "Internship",
-                provider = "Amazon",
-                deadline = "May 1",
-                link = "https://amazon.jobs",
-                matchScore = 82,
-                description = "Learn product development, user research, and analytics.",
-                duration = "2-3 months",
-                level = "2nd/3rd Year",
-                tags = listOf("Product", "Business", "Analytics")
-            ),
+        // Helper function to calculate a smart score
+        fun calculateScore(targetBranches: List<String>, targetGoals: List<String>, baseScore: Int): Int {
+            var score = baseScore
+            val isCSE = userBranch.contains("CSE") || userBranch.contains("Computer")
 
-            // Hackathons
+            if (targetBranches.contains("ALL") || (isCSE && targetBranches.contains("CSE")) || targetBranches.any { userBranch.contains(it) }) {
+                score += 15
+            }
+            if (targetGoals.contains("ALL") || targetGoals.any { userGoal.contains(it) }) {
+                score += 15
+            }
+            return score.coerceAtMost(99) // Cap at 99%
+        }
+
+        // ==========================================
+        // 🏆 TIER 1: HIGH-STAKES COMPETITIONS (Direct Jobs)
+        // ==========================================
+        opportunities.add(
             Opportunity(
-                title = "Smart India Hackathon 2024",
+                title = "TCS CodeVita (Season 12)",
                 type = "Hackathon",
-                provider = "Government of India",
-                deadline = "Register by May 10",
-                link = "https://sih.gov.in",
-                matchScore = 96,
-                description = "World's largest hackathon. Solve real government problems.",
-                duration = "36 hours",
+                provider = "Tata Consultancy Services",
+                deadline = "Registrations open Oct",
+                link = "https://codevita.tcsapps.com/",
+                matchScore = calculateScore(listOf("CSE", "ECE", "EEE"), listOf("Placement"), 75),
+                description = "Guaranteed interview call for TCS Ninja, Digital, or Prime roles if you clear round 1. Global ranking.",
+                duration = "6 hours",
                 level = "All Years",
-                tags = listOf("National", "Cash Prizes", "Grand")
-            ),
-            Opportunity(
-                title = "Google Solution Challenge",
-                type = "Hackathon",
-                provider = "Google Developers",
-                deadline = "April 20",
-                link = "https://developers.google.com",
-                matchScore = 91,
-                description = "Build solutions for UN Sustainable Development Goals.",
-                duration = "2 months",
-                level = "All Years",
-                tags = listOf("Global", "Google", "Social Impact")
-            ),
-            Opportunity(
-                title = "HackHarvard 2024",
-                type = "Hackathon",
-                provider = "Harvard University",
-                deadline = "May 25",
-                link = "https://hackharvard.io",
-                matchScore = 86,
-                description = "International hackathon. Travel scholarships available.",
-                duration = "48 hours",
-                level = "All Years",
-                tags = listOf("International", "Travel", "Networking")
-            ),
-            Opportunity(
-                title = "CodeChef Starters",
-                type = "Hackathon",
-                provider = "CodeChef",
-                deadline = "Weekly",
-                link = "https://codechef.com",
-                matchScore = 78,
-                description = "Weekly coding contest with prizes and ratings.",
-                duration = "2 hours",
-                level = "All Levels",
-                tags = listOf("Coding", "Competitive", "Weekly")
+                tags = listOf("Direct Hiring", "Coding", "High Package")
             )
         )
+
+        opportunities.add(
+            Opportunity(
+                title = "Flipkart GRiD 6.0",
+                type = "Hackathon",
+                provider = "Flipkart",
+                deadline = "Registrations open June",
+                link = "https://unstop.com/flipkart-grid",
+                matchScore = calculateScore(listOf("CSE", "ECE", "Mechanical"), listOf("Placement"), 70),
+                description = "Tracks in Software Development, Information Security, and Robotics. Top teams get PPOs and massive cash prizes.",
+                duration = "2 Months",
+                level = "Pre-final/Final Year",
+                tags = listOf("PPO", "E-commerce", "Robotics")
+            )
+        )
+
+        opportunities.add(
+            Opportunity(
+                title = "e-Yantra Robotics Competition",
+                type = "Hackathon",
+                provider = "IIT Bombay & MoE",
+                deadline = "August",
+                link = "https://e-yantra.org/",
+                matchScore = calculateScore(listOf("Mechanical", "ECE", "EEE", "CSE"), listOf("Placement", "Higher Studies"), 70),
+                description = "India's premier robotics competition. You are shipped real hardware kits to solve complex automation tasks.",
+                duration = "6 Months",
+                level = "All Years",
+                tags = listOf("Hardware", "Core Engineering", "IIT Bombay")
+            )
+        )
+
+        // ==========================================
+        // 🌍 TIER 2: ELITE INTERNSHIPS & FELLOWSHIPS
+        // ==========================================
+        opportunities.add(
+            Opportunity(
+                title = "Mitacs Globalink Research Internship",
+                type = "Internship",
+                provider = "Govt. of Canada",
+                deadline = "Apply by September",
+                link = "https://www.mitacs.ca/",
+                matchScore = calculateScore(listOf("ALL"), listOf("Higher Studies"), 75),
+                description = "Fully funded 12-week research internship at top Canadian universities. The holy grail for MS/PhD aspirants.",
+                duration = "12 weeks",
+                level = "Pre-final Year (3rd Year)",
+                tags = listOf("Fully Funded", "Research", "Canada", "MS/PhD")
+            )
+        )
+
+        opportunities.add(
+            Opportunity(
+                title = "MLH Fellowship",
+                type = "Internship",
+                provider = "Major League Hacking (Meta/GitHub)",
+                deadline = "Rolling Admissions",
+                link = "https://fellowship.mlh.io/",
+                matchScore = calculateScore(listOf("CSE"), listOf("Placement", "Higher Studies"), 70),
+                description = "Remote stipend-based fellowship. Contribute to major open-source projects like React, Jest, or AWS.",
+                duration = "12 weeks",
+                level = "Intermediate to Advanced",
+                tags = listOf("Remote", "Stipend", "Open Source")
+            )
+        )
+
+        opportunities.add(
+            Opportunity(
+                title = "AICTE EduSkills Virtual Internship",
+                type = "Internship",
+                provider = "AICTE (AWS, Palo Alto)",
+                deadline = "Cohort starting soon",
+                link = "https://internship.aicte-india.org/",
+                matchScore = calculateScore(listOf("CSE", "ECE", "IT"), listOf("Placement"), 65),
+                description = "Learn Cloud Computing, Cybersecurity, or RPA. Get an official Govt of India and corporate joint certificate.",
+                duration = "8 weeks",
+                level = "2nd/3rd Year",
+                tags = listOf("Govt Certified", "Cloud", "Cybersecurity")
+            )
+        )
+
+        // ==========================================
+        // 💼 TIER 3: FOUNDER & STARTUP PROGRAMS
+        // ==========================================
+        opportunities.add(
+            Opportunity(
+                title = "Y Combinator Startup School",
+                type = "Course",
+                provider = "Y Combinator",
+                deadline = "Self-paced",
+                link = "https://www.startupschool.org/",
+                matchScore = calculateScore(listOf("ALL"), listOf("Entrepreneurship", "Startup"), 80),
+                description = "Learn how to build a billion-dollar startup from the founders of Airbnb, Stripe, and Reddit. Free and online.",
+                duration = "8 weeks",
+                level = "Beginner to Advanced",
+                tags = listOf("Founders", "Fundraising", "Silicon Valley")
+            )
+        )
+
+        opportunities.add(
+            Opportunity(
+                title = "Tata Imagination Challenge",
+                type = "Hackathon",
+                provider = "Tata Group",
+                deadline = "September",
+                link = "https://www.tatacrucible.com/",
+                matchScore = calculateScore(listOf("ALL"), listOf("Entrepreneurship", "Placement"), 65),
+                description = "Pitch your innovative business idea. Winners get cash prizes and accelerated interviews with TAS (Tata Administrative Services).",
+                duration = "1 Month",
+                level = "All Years",
+                tags = listOf("Business", "Innovation", "Tata")
+            )
+        )
+
+        // ==========================================
+        // 📚 TIER 4: ESSENTIAL COURSES & PREP
+        // ==========================================
+        opportunities.add(
+            Opportunity(
+                title = "AWS Academy Cloud Foundations",
+                type = "Course",
+                provider = "Amazon Web Services",
+                deadline = "Self-paced",
+                link = "https://aws.amazon.com/training/awsacademy/",
+                matchScore = calculateScore(listOf("CSE", "ECE"), listOf("Placement"), 60),
+                description = "Cloud skills are mandatory for software roles today. Get hands-on with EC2, S3, and Lambda to prepare for AWS certification.",
+                duration = "20 hours",
+                level = "Beginner",
+                tags = listOf("Cloud", "AWS", "Certification")
+            )
+        )
+
+        opportunities.add(
+            Opportunity(
+                title = "NPTEL / Swayam Local Chapter",
+                type = "Course",
+                provider = "IITs & IISc",
+                deadline = "Enrollment closes Jan/July",
+                link = "https://swayam.gov.in/",
+                matchScore = calculateScore(listOf("Mechanical", "Civil", "EEE", "ECE"), listOf("GATE", "Higher Studies"), 75),
+                description = "Transferable college credits and the absolute best resource for GATE core subject preparation.",
+                duration = "8-12 weeks",
+                level = "All Years",
+                tags = listOf("GATE Prep", "IIT Faculty", "Credit Transfer")
+            )
+        )
+
+        return opportunities
     }
 
     // Data class
@@ -249,7 +278,7 @@ class OpportunitiesActivity : AppCompatActivity() {
         val provider: String,
         val deadline: String,
         val link: String,
-        val matchScore: Int,
+        var matchScore: Int,
         val description: String = "",
         val duration: String = "",
         val level: String = "",
@@ -298,20 +327,8 @@ class OpportunitiesActivity : AppCompatActivity() {
                     tvDescription.visibility = View.GONE
                 }
 
-                // Set type-specific styling
-                when (opportunity.type) {
-                    "Course" -> tvType.setBackgroundColor(itemView.context.getColor(R.color.primary))
-                    "Internship" -> tvType.setBackgroundColor(itemView.context.getColor(R.color.secondary))
-                    "Hackathon" -> tvType.setBackgroundColor(itemView.context.getColor(R.color.success))
-                }
-
-                btnApply.setOnClickListener {
-                    showOpportunityDetails(opportunity)
-                }
-
-                cardView.setOnClickListener {
-                    showOpportunityDetails(opportunity)
-                }
+                btnApply.setOnClickListener { showOpportunityDetails(opportunity) }
+                cardView.setOnClickListener { showOpportunityDetails(opportunity) }
             }
 
             private fun showOpportunityDetails(opportunity: Opportunity) {
@@ -338,22 +355,13 @@ class OpportunitiesActivity : AppCompatActivity() {
                         $tagsText
                         
                         🎯 Match Score: ${opportunity.matchScore}%
-                        
-                        💡 Tip: Apply early for better chances!
                     """.trimIndent())
                     .setPositiveButton("Apply Now") { _, _ ->
-                        // Open link in browser
                         val intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
                         intent.data = android.net.Uri.parse(opportunity.link)
-                        startActivity(intent)
+                        itemView.context.startActivity(intent)
                     }
-                    .setNeutralButton("Save for Later") { _, _ ->
-                        MaterialAlertDialogBuilder(itemView.context)
-                            .setTitle("Saved!")
-                            .setMessage("This opportunity has been saved to your profile.")
-                            .setPositiveButton("OK", null)
-                            .show()
-                    }
+                    .setNeutralButton("Save for Later", null)
                     .setNegativeButton("Cancel", null)
                     .show()
             }
