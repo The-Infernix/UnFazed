@@ -1,12 +1,12 @@
 package com.example.unfazed
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +19,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 🚀 CHECK IF USER IS ALREADY LOGGED IN!
+        val prefs = getSharedPreferences("UnfazedPrefs", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("isLoggedIn", false)) {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            finish() // Close MainActivity so they can't hit 'back' to return here
+            return
+        }
+
         setContentView(R.layout.activity_main)
 
         initViews()
@@ -35,20 +44,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSpinners() {
-        // Branch Spinner
         val branches = listOf("Computer Science (CSE)", "Electronics (ECE)", "Electrical (EEE)", "Mechanical", "Civil")
-        val branchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, branches)
-        spinnerBranch.setAdapter(branchAdapter)
+        spinnerBranch.setAdapter(ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, branches))
 
-        // Year Spinner
         val years = listOf("1st Year", "2nd Year", "3rd Year", "4th Year")
-        val yearAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, years)
-        spinnerYear.setAdapter(yearAdapter)
+        spinnerYear.setAdapter(ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, years))
 
-        // Goal Spinner
         val goals = listOf("🎯 Placement/Job", "📚 GATE Exam", "🎓 Higher Studies (MS/PhD)", "💼 Entrepreneurship", "🚀 Startup Career")
-        val goalAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, goals)
-        spinnerGoal.setAdapter(goalAdapter)
+        spinnerGoal.setAdapter(ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, goals))
     }
 
     private fun setupClickListeners() {
@@ -58,18 +61,21 @@ class MainActivity : AppCompatActivity() {
             val year = spinnerYear.text.toString()
             val goal = spinnerGoal.text.toString()
 
-            if (branch.isEmpty() || year.isEmpty() || goal.isEmpty()) {
-                // Show error - you can add Snackbar here
-                return@setOnClickListener
+            if (branch.isEmpty() || year.isEmpty() || goal.isEmpty()) return@setOnClickListener
+
+            // 💾 SAVE DATA TO DEVICE FOREVER
+            val prefs = getSharedPreferences("UnfazedPrefs", Context.MODE_PRIVATE)
+            prefs.edit().apply {
+                putBoolean("isLoggedIn", true)
+                putString("name", name)
+                putString("branch", branch)
+                putString("year", year)
+                putString("goal", goal)
+                apply()
             }
 
-            val intent = Intent(this, DashboardActivity::class.java).apply {
-                putExtra("name", name)
-                putExtra("branch", branch)
-                putExtra("year", year)
-                putExtra("goal", goal)
-            }
-            startActivity(intent)
+            startActivity(Intent(this, DashboardActivity::class.java))
+            finish() // Close this screen forever
         }
     }
 }

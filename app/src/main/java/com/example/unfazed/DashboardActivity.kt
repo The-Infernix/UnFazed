@@ -19,11 +19,12 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        // 1. Get user data from intent
-        name = intent.getStringExtra("name") ?: "Student"
-        branch = intent.getStringExtra("branch") ?: ""
-        year = intent.getStringExtra("year") ?: ""
-        goal = intent.getStringExtra("goal") ?: ""
+        // 💾 LOAD DATA FROM DEVICE MEMORY INSTEAD OF INTENT
+        val prefs = getSharedPreferences("UnfazedPrefs", MODE_PRIVATE)
+        name = prefs.getString("name", "Student") ?: "Student"
+        branch = prefs.getString("branch", "") ?: ""
+        year = prefs.getString("year", "") ?: ""
+        goal = prefs.getString("goal", "") ?: ""
 
         // 2. Setup UI and Listeners
         setupUserData()
