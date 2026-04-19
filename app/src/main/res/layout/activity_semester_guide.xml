@@ -104,7 +104,8 @@
                     android:text="Semester 5"
                     android:checkable="true"
                     android:backgroundTint="@color/primary"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:checked="true"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipSem6"
@@ -210,7 +211,7 @@
                 app:backgroundTint="@color/primary"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- Generated Timetable Layout -->
+            <!-- Generated Timetable Layout (Initially Hidden) -->
             <LinearLayout
                 android:id="@+id/layoutTimetable"
                 android:layout_width="match_parent"
@@ -320,6 +321,41 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="14sp"
+                            android:textColor="@color/text_primary"
+                            android:lineSpacingExtra="6dp"/>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Syllabus Breakdown Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📚 Syllabus  Topic Priority"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            android:layout_marginBottom="12dp"/>
+
+                        <TextView
+                            android:id="@+id/tvSyllabusBreakdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
                             android:textColor="@color/text_primary"
                             android:lineSpacingExtra="6dp"/>
 
