@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tvTimeline" type="id" />
+    <item name="tvEstimatedHours" type="id" />
+    <item name="chipGroupResources" type="id" />
+    <item name="layoutExpanded" type="id" />
+</resources>

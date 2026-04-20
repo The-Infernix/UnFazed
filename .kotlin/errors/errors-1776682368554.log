@@ -1,0 +1,506 @@
+kotlin version: 2.0.21
+error message: org.jetbrains.kotlin.backend.common.BackendException: Backend Internal error: Exception during IR lowering
+File being compiled: C:/NEXUS/UnFazed/app/src/main/java/com/example/unfazed/RoadmapAdapter.kt
+The root cause java.lang.RuntimeException was thrown at: org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.generate(FunctionCodegen.kt:47)
+	at org.jetbrains.kotlin.backend.common.CodegenUtil.reportBackendException(CodegenUtil.kt:253)
+	at org.jetbrains.kotlin.backend.common.CodegenUtil.reportBackendException$default(CodegenUtil.kt:236)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invokeSequential(performByIrFile.kt:65)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invoke(performByIrFile.kt:52)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invoke(performByIrFile.kt:38)
+	at org.jetbrains.kotlin.backend.common.phaser.NamedCompilerPhase.phaseBody(CompilerPhase.kt:166)
+	at org.jetbrains.kotlin.backend.common.phaser.AbstractNamedCompilerPhase.invoke(CompilerPhase.kt:113)
+	at org.jetbrains.kotlin.backend.common.phaser.CompositePhase.invoke(PhaseBuilders.kt:27)
+	at org.jetbrains.kotlin.backend.common.phaser.CompositePhase.invoke(PhaseBuilders.kt:14)
+	at org.jetbrains.kotlin.backend.common.phaser.NamedCompilerPhase.phaseBody(CompilerPhase.kt:166)
+	at org.jetbrains.kotlin.backend.common.phaser.AbstractNamedCompilerPhase.invoke(CompilerPhase.kt:113)
+	at org.jetbrains.kotlin.backend.common.phaser.CompilerPhaseKt.invokeToplevel(CompilerPhase.kt:62)
+	at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory.invokeCodegen(JvmIrCodegenFactory.kt:371)
+	at org.jetbrains.kotlin.codegen.CodegenFactory.generateModule(CodegenFactory.kt:47)
+	at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory.generateModuleInFrontendIRMode(JvmIrCodegenFactory.kt:433)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.generateCodeFromIr(jvmCompilerPipeline.kt:246)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.compileModulesUsingFrontendIrAndLightTree(jvmCompilerPipeline.kt:142)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecute(K2JVMCompiler.kt:148)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecute(K2JVMCompiler.kt:43)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.execImpl(CLICompiler.kt:103)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.execImpl(CLICompiler.kt:49)
+	at org.jetbrains.kotlin.cli.common.CLITool.exec(CLITool.kt:101)
+	at org.jetbrains.kotlin.incremental.IncrementalJvmCompilerRunner.runCompiler(IncrementalJvmCompilerRunner.kt:464)
+	at org.jetbrains.kotlin.incremental.IncrementalJvmCompilerRunner.runCompiler(IncrementalJvmCompilerRunner.kt:73)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.doCompile(IncrementalCompilerRunner.kt:506)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compileImpl(IncrementalCompilerRunner.kt:423)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.tryCompileIncrementally$lambda$9$compile(IncrementalCompilerRunner.kt:249)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.tryCompileIncrementally(IncrementalCompilerRunner.kt:267)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compile(IncrementalCompilerRunner.kt:120)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.execIncrementalCompiler(CompileServiceImpl.kt:675)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.access$execIncrementalCompiler(CompileServiceImpl.kt:92)
+	at org.jetbrains.kotlin.daemon.CompileServiceImpl.compile(CompileServiceImpl.kt:1660)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(Unknown Source)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Unknown Source)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Unknown Source)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(Unknown Source)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(Unknown Source)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: java.lang.RuntimeException: Exception while generating code for:
+FUN name:onBindViewHolder visibility:public modality:OPEN <> ($this:com.example.unfazed.RoadmapAdapter, holder:com.example.unfazed.RoadmapAdapter.TaskViewHolder, position:kotlin.Int) returnType:kotlin.Unit
+  overridden:
+    public abstract fun onBindViewHolder (p0: @[EnhancedNullability] {VH of androidx.recyclerview.widget.RecyclerView.Adapter & Any}, p1: kotlin.Int): kotlin.Unit declared in androidx.recyclerview.widget.RecyclerView.Adapter
+  $this: VALUE_PARAMETER name:<this> type:com.example.unfazed.RoadmapAdapter
+  VALUE_PARAMETER name:holder index:0 type:com.example.unfazed.RoadmapAdapter.TaskViewHolder
+  VALUE_PARAMETER name:position index:1 type:kotlin.Int
+  BLOCK_BODY
+    VAR name:task type:com.example.unfazed.RoadmapTask [val]
+      CALL 'public abstract fun get (index: kotlin.Int): E of kotlin.collections.List [operator] declared in kotlin.collections.List' type=com.example.unfazed.RoadmapTask origin=GET_ARRAY_ELEMENT
+        $this: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:taskList type:kotlin.collections.List<com.example.unfazed.RoadmapTask> visibility:private [final]' type=kotlin.collections.List<com.example.unfazed.RoadmapTask> origin=null
+          receiver: GET_VAR '<this>: com.example.unfazed.RoadmapAdapter declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter origin=null
+        index: GET_VAR 'position: kotlin.Int declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=kotlin.Int origin=null
+    CALL 'public final fun setText (p0: @[FlexibleNullability] kotlin.CharSequence?): kotlin.Unit declared in android.widget.TextView' type=kotlin.Unit origin=EQ
+      $this: CALL 'public final fun <get-tvSemesterTag> (): android.widget.TextView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.TextView origin=GET_PROPERTY
+        $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+      p0: CALL 'public final fun <get-semesterTarget> (): kotlin.String declared in com.example.unfazed.RoadmapTask' type=kotlin.String origin=GET_PROPERTY
+        $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+    CALL 'public final fun setText (p0: @[FlexibleNullability] kotlin.CharSequence?): kotlin.Unit declared in android.widget.TextView' type=kotlin.Unit origin=EQ
+      $this: CALL 'public final fun <get-tvTaskTitle> (): android.widget.TextView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.TextView origin=GET_PROPERTY
+        $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+      p0: CALL 'public final fun <get-title> (): kotlin.String declared in com.example.unfazed.RoadmapTask' type=kotlin.String origin=GET_PROPERTY
+        $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+    CALL 'public final fun setText (p0: @[FlexibleNullability] kotlin.CharSequence?): kotlin.Unit declared in android.widget.TextView' type=kotlin.Unit origin=EQ
+      $this: CALL 'public final fun <get-tvTaskDescription> (): android.widget.TextView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.TextView origin=GET_PROPERTY
+        $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+      p0: CALL 'public final fun <get-description> (): kotlin.String declared in com.example.unfazed.RoadmapTask' type=kotlin.String origin=GET_PROPERTY
+        $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+    WHEN type=kotlin.Unit origin=IF
+      BRANCH
+        if: CALL 'public final fun not (): kotlin.Boolean [operator] declared in kotlin.Boolean' type=kotlin.Boolean origin=null
+          $this: CALL 'public final fun isNullOrEmpty (): kotlin.Boolean [inline] declared in kotlin.text.StringsKt' type=kotlin.Boolean origin=null
+            $receiver: CALL 'public final fun <get-timeline> (): kotlin.String? declared in com.example.unfazed.RoadmapTask' type=kotlin.String? origin=GET_PROPERTY
+              $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+        then: BLOCK type=kotlin.Unit origin=null
+          CALL 'public final fun setText (p0: @[FlexibleNullability] kotlin.CharSequence?): kotlin.Unit declared in android.widget.TextView' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-tvTimeline> (): android.widget.TextView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.TextView origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: STRING_CONCATENATION type=kotlin.String
+              CONST String type=kotlin.String value="⏰ "
+              CALL 'public final fun <get-timeline> (): kotlin.String? declared in com.example.unfazed.RoadmapTask' type=kotlin.String? origin=GET_PROPERTY
+                $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+          CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.TextView' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-tvTimeline> (): android.widget.TextView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.TextView origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: CONST Int type=kotlin.Int value=0
+      BRANCH
+        if: CONST Boolean type=kotlin.Boolean value=true
+        then: BLOCK type=kotlin.Unit origin=null
+          CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.TextView' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-tvTimeline> (): android.widget.TextView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.TextView origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: CONST Int type=kotlin.Int value=8
+    WHEN type=kotlin.Unit origin=IF
+      BRANCH
+        if: CALL 'public final fun ANDAND (arg0: kotlin.Boolean, arg1: kotlin.Boolean): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+          arg0: CALL 'public final fun not (): kotlin.Boolean [operator] declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+            $this: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+              arg0: CALL 'public final fun <get-estimatedHours> (): kotlin.Int? declared in com.example.unfazed.RoadmapTask' type=kotlin.Int? origin=GET_PROPERTY
+                $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+              arg1: CONST Null type=kotlin.Nothing? value=null
+          arg1: CALL 'public final fun greater (arg0: kotlin.Int, arg1: kotlin.Int): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=GT
+            arg0: CALL 'public final fun <get-estimatedHours> (): kotlin.Int? declared in com.example.unfazed.RoadmapTask' type=kotlin.Int? origin=GET_PROPERTY
+              $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+            arg1: CONST Int type=kotlin.Int value=0
+        then: BLOCK type=kotlin.Unit origin=null
+          CALL 'public final fun setText (p0: @[FlexibleNullability] kotlin.CharSequence?): kotlin.Unit declared in android.widget.TextView' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-tvEstimatedHours> (): android.widget.TextView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.TextView origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: STRING_CONCATENATION type=kotlin.String
+              CONST String type=kotlin.String value="\uD83D\uDCDA "
+              CALL 'public final fun <get-estimatedHours> (): kotlin.Int? declared in com.example.unfazed.RoadmapTask' type=kotlin.Int? origin=GET_PROPERTY
+                $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+              CONST String type=kotlin.String value=" hours estimated"
+          CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.TextView' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-tvEstimatedHours> (): android.widget.TextView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.TextView origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: CONST Int type=kotlin.Int value=0
+      BRANCH
+        if: CONST Boolean type=kotlin.Boolean value=true
+        then: BLOCK type=kotlin.Unit origin=null
+          CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.TextView' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-tvEstimatedHours> (): android.widget.TextView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.TextView origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: CONST Int type=kotlin.Int value=8
+    WHEN type=kotlin.Unit origin=IF
+      BRANCH
+        if: CALL 'public final fun ANDAND (arg0: kotlin.Boolean, arg1: kotlin.Boolean): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+          arg0: CALL 'public final fun not (): kotlin.Boolean [operator] declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+            $this: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+              arg0: CALL 'public final fun <get-resources> (): kotlin.collections.List<kotlin.String>? declared in com.example.unfazed.RoadmapTask' type=kotlin.collections.List<kotlin.String>? origin=GET_PROPERTY
+                $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+              arg1: CONST Null type=kotlin.Nothing? value=null
+          arg1: CALL 'public final fun isNotEmpty <T> (): kotlin.Boolean [inline] declared in kotlin.collections.CollectionsKt' type=kotlin.Boolean origin=null
+            <T>: kotlin.String
+            $receiver: CALL 'public final fun <get-resources> (): kotlin.collections.List<kotlin.String>? declared in com.example.unfazed.RoadmapTask' type=kotlin.collections.List<kotlin.String>? origin=GET_PROPERTY
+              $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+        then: BLOCK type=kotlin.Unit origin=null
+          CALL 'public open fun removeAllViews (): kotlin.Unit [fake_override] declared in com.google.android.material.chip.ChipGroup' type=kotlin.Unit origin=null
+            $this: CALL 'public final fun <get-chipGroupResources> (): com.google.android.material.chip.ChipGroup declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.chip.ChipGroup origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+          CALL 'public final fun forEach <T> (action: kotlin.Function1<T of kotlin.collections.CollectionsKt.forEach, kotlin.Unit>): kotlin.Unit [inline] declared in kotlin.collections.CollectionsKt' type=kotlin.Unit origin=null
+            <T>: kotlin.String
+            $receiver: CALL 'public final fun <get-resources> (): kotlin.collections.List<kotlin.String>? declared in com.example.unfazed.RoadmapTask' type=kotlin.collections.List<kotlin.String>? origin=GET_PROPERTY
+              $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+            action: BLOCK type=kotlin.Function1<kotlin.String, kotlin.Unit> origin=LAMBDA
+              COMPOSITE type=kotlin.Unit origin=null
+              FUNCTION_REFERENCE 'private final fun onBindViewHolder$lambda$1 ($holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder, resource: kotlin.String): kotlin.Unit declared in com.example.unfazed.RoadmapAdapter' type=kotlin.Function1<kotlin.String, kotlin.Unit> origin=INLINE_LAMBDA reflectionTarget=null
+                $holder: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+          CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in com.google.android.material.chip.ChipGroup' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-chipGroupResources> (): com.google.android.material.chip.ChipGroup declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.chip.ChipGroup origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: CONST Int type=kotlin.Int value=0
+      BRANCH
+        if: CONST Boolean type=kotlin.Boolean value=true
+        then: BLOCK type=kotlin.Unit origin=null
+          CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in com.google.android.material.chip.ChipGroup' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-chipGroupResources> (): com.google.android.material.chip.ChipGroup declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.chip.ChipGroup origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: CONST Int type=kotlin.Int value=8
+    BLOCK type=kotlin.Unit origin=WHEN
+      VAR IR_TEMPORARY_VARIABLE name:tmp0_subject type:com.example.unfazed.TaskStatus [val]
+        CALL 'public final fun <get-status> (): com.example.unfazed.TaskStatus declared in com.example.unfazed.RoadmapTask' type=com.example.unfazed.TaskStatus origin=GET_PROPERTY
+          $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+      VAR IR_TEMPORARY_VARIABLE name:tmp0 type:kotlin.Int [val]
+        CALL 'public final fun get (index: kotlin.Int): kotlin.Int [operator] declared in kotlin.IntArray' type=kotlin.Int origin=null
+          $this: GET_FIELD 'FIELD ENUM_MAPPINGS_FOR_WHEN name:$EnumSwitchMapping$0 type:kotlin.IntArray visibility:public [final,static] declared in com.example.unfazed.RoadmapAdapter.WhenMappings' type=kotlin.IntArray origin=null
+          index: CALL 'public final fun <get-ordinal> (): kotlin.Int [fake_override] declared in com.example.unfazed.TaskStatus' type=kotlin.Int origin=null
+            $this: GET_VAR 'val tmp0_subject: com.example.unfazed.TaskStatus [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.TaskStatus origin=null
+      WHEN type=kotlin.Unit origin=WHEN
+        BRANCH
+          if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+            arg0: GET_VAR 'val tmp0: kotlin.Int [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=kotlin.Int origin=null
+            arg1: CONST Int type=kotlin.Int value=1
+          then: BLOCK type=kotlin.Unit origin=null
+            CALL 'public open fun setProgress (p0: kotlin.Int): kotlin.Unit declared in android.widget.ProgressBar' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-progressBar> (): android.widget.ProgressBar declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.ProgressBar origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Int type=kotlin.Int value=100
+            CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.ProgressBar' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-progressBar> (): android.widget.ProgressBar declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.ProgressBar origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Int type=kotlin.Int value=0
+        BRANCH
+          if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+            arg0: GET_VAR 'val tmp0: kotlin.Int [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=kotlin.Int origin=null
+            arg1: CONST Int type=kotlin.Int value=2
+          then: BLOCK type=kotlin.Unit origin=null
+            CALL 'public open fun setProgress (p0: kotlin.Int): kotlin.Unit declared in android.widget.ProgressBar' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-progressBar> (): android.widget.ProgressBar declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.ProgressBar origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Int type=kotlin.Int value=50
+            CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.ProgressBar' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-progressBar> (): android.widget.ProgressBar declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.ProgressBar origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Int type=kotlin.Int value=0
+        BRANCH
+          if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+            arg0: GET_VAR 'val tmp0: kotlin.Int [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=kotlin.Int origin=null
+            arg1: CONST Int type=kotlin.Int value=3
+          then: BLOCK type=kotlin.Unit origin=null
+            CALL 'public open fun setProgress (p0: kotlin.Int): kotlin.Unit declared in android.widget.ProgressBar' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-progressBar> (): android.widget.ProgressBar declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.ProgressBar origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Int type=kotlin.Int value=0
+            CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.ProgressBar' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-progressBar> (): android.widget.ProgressBar declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.ProgressBar origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Int type=kotlin.Int value=8
+        BRANCH
+          if: CONST Boolean type=kotlin.Boolean value=true
+          then: BLOCK type=kotlin.Nothing origin=null
+            CALL 'public final fun noWhenBranchMatchedException (): kotlin.Nothing declared in kotlin.internal.ir' type=kotlin.Nothing origin=null
+            CALL 'public final fun throwKotlinNothingValueException (): kotlin.Nothing declared in kotlin.jvm.internal.Intrinsics' type=kotlin.Nothing origin=null
+    BLOCK type=kotlin.Unit origin=WHEN
+      VAR IR_TEMPORARY_VARIABLE name:tmp1_subject type:com.example.unfazed.TaskStatus [val]
+        CALL 'public final fun <get-status> (): com.example.unfazed.TaskStatus declared in com.example.unfazed.RoadmapTask' type=com.example.unfazed.TaskStatus origin=GET_PROPERTY
+          $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+      VAR IR_TEMPORARY_VARIABLE name:tmp0 type:kotlin.Int [val]
+        CALL 'public final fun get (index: kotlin.Int): kotlin.Int [operator] declared in kotlin.IntArray' type=kotlin.Int origin=null
+          $this: GET_FIELD 'FIELD ENUM_MAPPINGS_FOR_WHEN name:$EnumSwitchMapping$0 type:kotlin.IntArray visibility:public [final,static] declared in com.example.unfazed.RoadmapAdapter.WhenMappings' type=kotlin.IntArray origin=null
+          index: CALL 'public final fun <get-ordinal> (): kotlin.Int [fake_override] declared in com.example.unfazed.TaskStatus' type=kotlin.Int origin=null
+            $this: GET_VAR 'val tmp1_subject: com.example.unfazed.TaskStatus [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.TaskStatus origin=null
+      WHEN type=kotlin.Unit origin=WHEN
+        BRANCH
+          if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+            arg0: GET_VAR 'val tmp0: kotlin.Int [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=kotlin.Int origin=null
+            arg1: CONST Int type=kotlin.Int value=3
+          then: BLOCK type=kotlin.Unit origin=null
+            CALL 'public open fun setAlpha (p0: kotlin.Float): kotlin.Unit [fake_override] declared in com.google.android.material.card.MaterialCardView' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-taskCard> (): com.google.android.material.card.MaterialCardView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.card.MaterialCardView origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Float type=kotlin.Float value=0.6
+            CALL 'public open fun setBackgroundColor (p0: kotlin.Int): kotlin.Unit declared in android.view.View' type=kotlin.Unit origin=null
+              $this: CALL 'public final fun <get-statusDot> (): android.view.View declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.view.View origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CALL 'public open fun parseColor (p0: @[FlexibleNullability] kotlin.String?): kotlin.Int declared in android.graphics.Color' type=kotlin.Int origin=null
+                p0: CONST String type=kotlin.String value="#BDBDBD"
+            CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.LinearLayout' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-layoutExpanded> (): android.widget.LinearLayout declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.LinearLayout origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Int type=kotlin.Int value=8
+        BRANCH
+          if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+            arg0: GET_VAR 'val tmp0: kotlin.Int [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=kotlin.Int origin=null
+            arg1: CONST Int type=kotlin.Int value=2
+          then: BLOCK type=kotlin.Unit origin=null
+            CALL 'public open fun setAlpha (p0: kotlin.Float): kotlin.Unit [fake_override] declared in com.google.android.material.card.MaterialCardView' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-taskCard> (): com.google.android.material.card.MaterialCardView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.card.MaterialCardView origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Float type=kotlin.Float value=1.0
+            CALL 'public open fun setStrokeColor (p0: kotlin.Int): kotlin.Unit declared in com.google.android.material.card.MaterialCardView' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-taskCard> (): com.google.android.material.card.MaterialCardView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.card.MaterialCardView origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CALL 'public open fun parseColor (p0: @[FlexibleNullability] kotlin.String?): kotlin.Int declared in android.graphics.Color' type=kotlin.Int origin=null
+                p0: CONST String type=kotlin.String value="#6366F1"
+            CALL 'public open fun setBackgroundColor (p0: kotlin.Int): kotlin.Unit declared in android.view.View' type=kotlin.Unit origin=null
+              $this: CALL 'public final fun <get-statusDot> (): android.view.View declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.view.View origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CALL 'public open fun parseColor (p0: @[FlexibleNullability] kotlin.String?): kotlin.Int declared in android.graphics.Color' type=kotlin.Int origin=null
+                p0: CONST String type=kotlin.String value="#6366F1"
+            CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.LinearLayout' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-layoutExpanded> (): android.widget.LinearLayout declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.LinearLayout origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Int type=kotlin.Int value=0
+        BRANCH
+          if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+            arg0: GET_VAR 'val tmp0: kotlin.Int [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=kotlin.Int origin=null
+            arg1: CONST Int type=kotlin.Int value=1
+          then: BLOCK type=kotlin.Unit origin=null
+            CALL 'public open fun setAlpha (p0: kotlin.Float): kotlin.Unit [fake_override] declared in com.google.android.material.card.MaterialCardView' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-taskCard> (): com.google.android.material.card.MaterialCardView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.card.MaterialCardView origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Float type=kotlin.Float value=1.0
+            CALL 'public open fun setStrokeColor (p0: kotlin.Int): kotlin.Unit declared in com.google.android.material.card.MaterialCardView' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-taskCard> (): com.google.android.material.card.MaterialCardView declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.card.MaterialCardView origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CALL 'public open fun parseColor (p0: @[FlexibleNullability] kotlin.String?): kotlin.Int declared in android.graphics.Color' type=kotlin.Int origin=null
+                p0: CONST String type=kotlin.String value="#10B981"
+            CALL 'public open fun setBackgroundColor (p0: kotlin.Int): kotlin.Unit declared in android.view.View' type=kotlin.Unit origin=null
+              $this: CALL 'public final fun <get-statusDot> (): android.view.View declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.view.View origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CALL 'public open fun parseColor (p0: @[FlexibleNullability] kotlin.String?): kotlin.Int declared in android.graphics.Color' type=kotlin.Int origin=null
+                p0: CONST String type=kotlin.String value="#10B981"
+            CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in android.widget.LinearLayout' type=kotlin.Unit origin=EQ
+              $this: CALL 'public final fun <get-layoutExpanded> (): android.widget.LinearLayout declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=android.widget.LinearLayout origin=GET_PROPERTY
+                $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              p0: CONST Int type=kotlin.Int value=0
+        BRANCH
+          if: CONST Boolean type=kotlin.Boolean value=true
+          then: BLOCK type=kotlin.Nothing origin=null
+            CALL 'public final fun noWhenBranchMatchedException (): kotlin.Nothing declared in kotlin.internal.ir' type=kotlin.Nothing origin=null
+            CALL 'public final fun throwKotlinNothingValueException (): kotlin.Nothing declared in kotlin.jvm.internal.Intrinsics' type=kotlin.Nothing origin=null
+    WHEN type=kotlin.Unit origin=IF
+      BRANCH
+        if: CALL 'public final fun ANDAND (arg0: kotlin.Boolean, arg1: kotlin.Boolean): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+          arg0: CALL 'public final fun ANDAND (arg0: kotlin.Boolean, arg1: kotlin.Boolean): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=null
+            arg0: CALL 'public final fun not (): kotlin.Boolean [operator] declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+              $this: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                arg0: CALL 'public final fun <get-actionText> (): kotlin.String? declared in com.example.unfazed.RoadmapTask' type=kotlin.String? origin=GET_PROPERTY
+                  $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+                arg1: CONST Null type=kotlin.Nothing? value=null
+            arg1: CALL 'public final fun not (): kotlin.Boolean [operator] declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+              $this: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                arg0: CALL 'public final fun <get-actionType> (): com.example.unfazed.ActionType? declared in com.example.unfazed.RoadmapTask' type=com.example.unfazed.ActionType? origin=GET_PROPERTY
+                  $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+                arg1: CONST Null type=kotlin.Nothing? value=null
+          arg1: CALL 'public final fun not (): kotlin.Boolean [operator] declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+            $this: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+              arg0: CALL 'public final fun <get-status> (): com.example.unfazed.TaskStatus declared in com.example.unfazed.RoadmapTask' type=com.example.unfazed.TaskStatus origin=GET_PROPERTY
+                $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+              arg1: GET_FIELD 'FIELD FIELD_FOR_ENUM_ENTRY name:LOCKED type:com.example.unfazed.TaskStatus visibility:public [final,static] declared in com.example.unfazed.TaskStatus' type=com.example.unfazed.TaskStatus origin=null
+        then: BLOCK type=kotlin.Unit origin=null
+          CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in com.google.android.material.button.MaterialButton' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-btnTaskAction> (): com.google.android.material.button.MaterialButton declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.button.MaterialButton origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: CONST Int type=kotlin.Int value=0
+          CALL 'public final fun setText (p0: @[FlexibleNullability] kotlin.CharSequence?): kotlin.Unit [fake_override] declared in com.google.android.material.button.MaterialButton' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-btnTaskAction> (): com.google.android.material.button.MaterialButton declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.button.MaterialButton origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: CALL 'public final fun <get-actionText> (): kotlin.String? declared in com.example.unfazed.RoadmapTask' type=kotlin.String? origin=GET_PROPERTY
+              $this: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+          CALL 'public open fun setOnClickListener (p0: @[EnhancedNullability] android.view.View.OnClickListener?): kotlin.Unit [fake_override] declared in com.google.android.material.button.MaterialButton' type=kotlin.Unit origin=null
+            $this: CALL 'public final fun <get-btnTaskAction> (): com.google.android.material.button.MaterialButton declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.button.MaterialButton origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: BLOCK type=android.view.View.OnClickListener origin=LAMBDA
+              COMPOSITE type=kotlin.Unit origin=null
+              CALL 'public final fun <jvm-indy> <T> (dynamicCall: T of kotlin.jvm.internal.<jvm-indy>, bootstrapMethodHandle: kotlin.Any, vararg bootstrapMethodArguments: kotlin.Any): T of kotlin.jvm.internal.<jvm-indy> declared in kotlin.jvm.internal' type=android.view.View.OnClickListener origin=null
+                <T>: android.view.View.OnClickListener
+                dynamicCall: CALL 'public final fun onClick (p0: com.example.unfazed.RoadmapAdapter, p1: com.example.unfazed.RoadmapTask): android.view.View.OnClickListener declared in kotlin.jvm.internal.invokeDynamic' type=android.view.View.OnClickListener origin=null
+                  p0: GET_VAR '<this>: com.example.unfazed.RoadmapAdapter declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter origin=null
+                  p1: GET_VAR 'val task: com.example.unfazed.RoadmapTask [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapTask origin=null
+                bootstrapMethodHandle: CALL 'public final fun <jvm-method-handle> (tag: kotlin.Int, owner: kotlin.String, name: kotlin.String, descriptor: kotlin.String, isInterface: kotlin.Boolean): kotlin.Any declared in kotlin.jvm.internal' type=kotlin.Any origin=null
+                  tag: CONST Int type=kotlin.Int value=6
+                  owner: CONST String type=kotlin.String value="java/lang/invoke/LambdaMetafactory"
+                  name: CONST String type=kotlin.String value="metafactory"
+                  descriptor: CONST String type=kotlin.String value="(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;"
+                  isInterface: CONST Boolean type=kotlin.Boolean value=false
+                bootstrapMethodArguments: VARARG type=kotlin.Array<kotlin.Any> varargElementType=kotlin.Any
+                  CALL 'public final fun <jvm-original-method-type> (method: kotlin.Any): kotlin.Any declared in kotlin.jvm.internal' type=kotlin.Any origin=null
+                    method: RAW_FUNCTION_REFERENCE 'public abstract fun onClick (p0: @[FlexibleNullability] android.view.View?): kotlin.Unit declared in android.view.View.OnClickListener' type=kotlin.Any
+                  RAW_FUNCTION_REFERENCE 'private final fun onBindViewHolder$lambda$2 (this$0: com.example.unfazed.RoadmapAdapter, $task: com.example.unfazed.RoadmapTask, it: @[FlexibleNullability] android.view.View?): kotlin.Unit declared in com.example.unfazed.RoadmapAdapter' type=kotlin.Any
+                  CALL 'public final fun <jvm-original-method-type> (method: kotlin.Any): kotlin.Any declared in kotlin.jvm.internal' type=kotlin.Any origin=null
+                    method: RAW_FUNCTION_REFERENCE 'public abstract fun onClick (p0: @[FlexibleNullability] android.view.View?): kotlin.Unit [fake_override] declared in kotlin.jvm.internal.invokeDynamic.<fake>' type=kotlin.Any
+      BRANCH
+        if: CONST Boolean type=kotlin.Boolean value=true
+        then: BLOCK type=kotlin.Unit origin=null
+          CALL 'public open fun setVisibility (p0: kotlin.Int): kotlin.Unit [fake_override] declared in com.google.android.material.button.MaterialButton' type=kotlin.Unit origin=EQ
+            $this: CALL 'public final fun <get-btnTaskAction> (): com.google.android.material.button.MaterialButton declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.button.MaterialButton origin=GET_PROPERTY
+              $this: GET_VAR 'holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            p0: CONST Int type=kotlin.Int value=8
+
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.generate(FunctionCodegen.kt:47)
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.generate$default(FunctionCodegen.kt:40)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen.generateMethodNode(ClassCodegen.kt:406)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen.generateMethod(ClassCodegen.kt:423)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen.generate(ClassCodegen.kt:168)
+	at org.jetbrains.kotlin.backend.jvm.FileCodegen.lower(JvmPhases.kt:39)
+	at org.jetbrains.kotlin.backend.common.phaser.PhaseFactoriesKt.createFilePhase$lambda$4(PhaseFactories.kt:71)
+	at org.jetbrains.kotlin.backend.common.phaser.PhaseBuildersKt$createSimpleNamedCompilerPhase$1.phaseBody(PhaseBuilders.kt:69)
+	at org.jetbrains.kotlin.backend.common.phaser.SimpleNamedCompilerPhase.phaseBody(CompilerPhase.kt:226)
+	at org.jetbrains.kotlin.backend.common.phaser.AbstractNamedCompilerPhase.invoke(CompilerPhase.kt:113)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invokeSequential(performByIrFile.kt:62)
+	... 44 more
+Caused by: java.lang.RuntimeException: Exception while generating code for:
+FUN INLINE_LAMBDA name:onBindViewHolder$lambda$1 visibility:private modality:FINAL <> ($holder:com.example.unfazed.RoadmapAdapter.TaskViewHolder, resource:kotlin.String) returnType:kotlin.Unit
+  VALUE_PARAMETER BOUND_VALUE_PARAMETER name:$holder index:0 type:com.example.unfazed.RoadmapAdapter.TaskViewHolder
+  VALUE_PARAMETER name:resource index:1 type:kotlin.String
+  BLOCK_BODY
+    VAR name:$i$a$-forEach-RoadmapAdapter$onBindViewHolder$1 type:kotlin.Int [val]
+      CONST Int type=kotlin.Int value=0
+    VAR name:chip type:com.google.android.material.chip.Chip [val]
+      CALL 'public final fun apply <T> (block: @[ExtensionFunctionType] kotlin.Function1<T of kotlin.StandardKt.apply, kotlin.Unit>): T of kotlin.StandardKt.apply [inline] declared in kotlin.StandardKt' type=com.google.android.material.chip.Chip origin=null
+        <T>: com.google.android.material.chip.Chip
+        $receiver: CONSTRUCTOR_CALL 'public constructor <init> (p0: @[FlexibleNullability] android.content.Context?) declared in com.google.android.material.chip.Chip' type=com.google.android.material.chip.Chip origin=null
+          p0: CALL 'public final fun getContext (): @[FlexibleNullability] android.content.Context? declared in android.view.View' type=@[FlexibleNullability] android.content.Context? origin=GET_PROPERTY
+            $this: GET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:itemView type:@[EnhancedNullability] android.view.View visibility:public [final] declared in androidx.recyclerview.widget.RecyclerView.ViewHolder' type=@[EnhancedNullability] android.view.View superQualifierSymbol=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+              receiver: GET_VAR '$holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+        block: BLOCK type=@[ExtensionFunctionType] kotlin.Function1<com.google.android.material.chip.Chip, kotlin.Unit> origin=LAMBDA
+          COMPOSITE type=kotlin.Unit origin=null
+          FUNCTION_REFERENCE 'private final fun onBindViewHolder$lambda$1$lambda$0 ($resource: kotlin.String, $holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder): kotlin.Unit declared in com.example.unfazed.RoadmapAdapter' type=@[ExtensionFunctionType] kotlin.Function1<com.google.android.material.chip.Chip, kotlin.Unit> origin=INLINE_LAMBDA reflectionTarget=null
+            $resource: GET_VAR 'resource: kotlin.String declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1' type=kotlin.String origin=null
+            $holder: GET_VAR '$holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+    CALL 'public open fun addView (p0: @[FlexibleNullability] android.view.View?): kotlin.Unit [fake_override] declared in com.google.android.material.chip.ChipGroup' type=kotlin.Unit origin=null
+      $this: CALL 'public final fun <get-chipGroupResources> (): com.google.android.material.chip.ChipGroup declared in com.example.unfazed.RoadmapAdapter.TaskViewHolder' type=com.google.android.material.chip.ChipGroup origin=GET_PROPERTY
+        $this: GET_VAR '$holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+      p0: GET_VAR 'val chip: com.google.android.material.chip.Chip [val] declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1' type=com.google.android.material.chip.Chip origin=null
+
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.generate(FunctionCodegen.kt:47)
+	at org.jetbrains.kotlin.backend.jvm.codegen.IrSourceCompilerForInline.generateLambdaBody(IrSourceCompilerForInline.kt:67)
+	at org.jetbrains.kotlin.codegen.inline.ExpressionLambda.generateLambdaBody(LambdaInfo.kt:72)
+	at org.jetbrains.kotlin.backend.jvm.codegen.IrInlineCodegen.genValueAndPut(IrInlineCodegen.kt:100)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitCall$handleParameter(ExpressionCodegen.kt:616)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitCall(ExpressionCodegen.kt:644)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitCall(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.expressions.IrCall.accept(IrCall.kt:24)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitStatementContainer(ExpressionCodegen.kt:579)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitContainerExpression(ExpressionCodegen.kt:593)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitContainerExpression(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitor$DefaultImpls.visitBlock(IrElementVisitor.kt:122)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitBlock(ExpressionCodegen.kt:413)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitBlock(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.expressions.IrBlock.accept(IrBlock.kt:18)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitWhen(ExpressionCodegen.kt:1101)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitWhen(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.expressions.IrWhen.accept(IrWhen.kt:24)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitStatementContainer(ExpressionCodegen.kt:579)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitBlockBody(ExpressionCodegen.kt:584)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitBlockBody(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.expressions.IrBlockBody.accept(IrBlockBody.kt:20)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.generate(ExpressionCodegen.kt:240)
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.doGenerate(FunctionCodegen.kt:123)
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.generate(FunctionCodegen.kt:44)
+	... 54 more
+Caused by: java.lang.RuntimeException: Exception while generating code for:
+FUN INLINE_LAMBDA name:onBindViewHolder$lambda$1$lambda$0 visibility:private modality:FINAL <> ($receiver:com.google.android.material.chip.Chip, $resource:kotlin.String, $holder:com.example.unfazed.RoadmapAdapter.TaskViewHolder) returnType:kotlin.Unit
+  $receiver: VALUE_PARAMETER name:$this$apply type:com.google.android.material.chip.Chip
+  VALUE_PARAMETER BOUND_VALUE_PARAMETER name:$resource index:0 type:kotlin.String
+  VALUE_PARAMETER BOUND_VALUE_PARAMETER name:$holder index:1 type:com.example.unfazed.RoadmapAdapter.TaskViewHolder
+  BLOCK_BODY
+    VAR name:$i$a$-apply-RoadmapAdapter$onBindViewHolder$1$chip$1 type:kotlin.Int [val]
+      CONST Int type=kotlin.Int value=0
+    CALL 'public final fun setText (p0: @[FlexibleNullability] kotlin.CharSequence?): kotlin.Unit [fake_override] declared in com.google.android.material.chip.Chip' type=kotlin.Unit origin=EQ
+      $this: GET_VAR '$this$apply: com.google.android.material.chip.Chip declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=com.google.android.material.chip.Chip origin=null
+      p0: GET_VAR '$resource: kotlin.String declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=kotlin.String origin=null
+    CALL 'public open fun setTextSize (p0: kotlin.Float): kotlin.Unit [fake_override] declared in com.google.android.material.chip.Chip' type=kotlin.Unit origin=EQ
+      $this: GET_VAR '$this$apply: com.google.android.material.chip.Chip declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=com.google.android.material.chip.Chip origin=null
+      p0: CONST Float type=kotlin.Float value=11.0
+    CALL 'public open fun setChipBackgroundColorResource (p0: kotlin.Int): kotlin.Unit declared in com.google.android.material.chip.Chip' type=kotlin.Unit origin=null
+      $this: GET_VAR '$this$apply: com.google.android.material.chip.Chip declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=com.google.android.material.chip.Chip origin=null
+      p0: CONST Int type=kotlin.Int value=17170445
+    CALL 'public open fun setTextColor (p0: kotlin.Int): kotlin.Unit [fake_override] declared in com.google.android.material.chip.Chip' type=kotlin.Unit origin=null
+      $this: GET_VAR '$this$apply: com.google.android.material.chip.Chip declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=com.google.android.material.chip.Chip origin=null
+      p0: CALL 'public open fun getColor (p0: @[NonNull] @[FlexibleNullability] android.content.Context?, p1: kotlin.Int): kotlin.Int declared in androidx.core.content.ContextCompat' type=kotlin.Int origin=null
+        p0: CALL 'public final fun getContext (): @[FlexibleNullability] android.content.Context? declared in android.view.View' type=@[FlexibleNullability] android.content.Context? origin=GET_PROPERTY
+          $this: GET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:itemView type:@[EnhancedNullability] android.view.View visibility:public [final] declared in androidx.recyclerview.widget.RecyclerView.ViewHolder' type=@[EnhancedNullability] android.view.View superQualifierSymbol=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            receiver: GET_VAR '$holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+        p1: GET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:primary type:kotlin.Int visibility:public [static] declared in com.example.unfazed.R.color' type=kotlin.Int superQualifierSymbol=com.example.unfazed.R.color origin=null
+    SET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:strokeColor type:kotlin.Int visibility:public [final,static] declared in android.R.attr' type=kotlin.Unit superQualifierSymbol=android.R.attr origin=EQ
+      value: CALL 'public open fun getColor (p0: @[NonNull] @[FlexibleNullability] android.content.Context?, p1: kotlin.Int): kotlin.Int declared in androidx.core.content.ContextCompat' type=kotlin.Int origin=null
+        p0: CALL 'public final fun getContext (): @[FlexibleNullability] android.content.Context? declared in android.view.View' type=@[FlexibleNullability] android.content.Context? origin=GET_PROPERTY
+          $this: GET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:itemView type:@[EnhancedNullability] android.view.View visibility:public [final] declared in androidx.recyclerview.widget.RecyclerView.ViewHolder' type=@[EnhancedNullability] android.view.View superQualifierSymbol=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+            receiver: GET_VAR '$holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+        p1: GET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:primary type:kotlin.Int visibility:public [static] declared in com.example.unfazed.R.color' type=kotlin.Int superQualifierSymbol=com.example.unfazed.R.color origin=null
+    SET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:strokeWidth type:kotlin.Int visibility:public [final,static] declared in android.R.attr' type=kotlin.Unit superQualifierSymbol=android.R.attr origin=EQ
+      value: CONST Int type=kotlin.Int value=11
+    CALL 'public open fun setClickable (p0: kotlin.Boolean): kotlin.Unit [fake_override] declared in com.google.android.material.chip.Chip' type=kotlin.Unit origin=EQ
+      $this: GET_VAR '$this$apply: com.google.android.material.chip.Chip declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=com.google.android.material.chip.Chip origin=null
+      p0: CONST Boolean type=kotlin.Boolean value=false
+    CALL 'public open fun setCheckable (p0: kotlin.Boolean): kotlin.Unit declared in com.google.android.material.chip.Chip' type=kotlin.Unit origin=EQ
+      $this: GET_VAR '$this$apply: com.google.android.material.chip.Chip declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=com.google.android.material.chip.Chip origin=null
+      p0: CONST Boolean type=kotlin.Boolean value=false
+
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.generate(FunctionCodegen.kt:47)
+	at org.jetbrains.kotlin.backend.jvm.codegen.IrSourceCompilerForInline.generateLambdaBody(IrSourceCompilerForInline.kt:67)
+	at org.jetbrains.kotlin.codegen.inline.ExpressionLambda.generateLambdaBody(LambdaInfo.kt:72)
+	at org.jetbrains.kotlin.backend.jvm.codegen.IrInlineCodegen.genValueAndPut(IrInlineCodegen.kt:100)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitCall$handleParameter(ExpressionCodegen.kt:616)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitCall(ExpressionCodegen.kt:644)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitCall(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.expressions.IrCall.accept(IrCall.kt:24)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitVariable(ExpressionCodegen.kt:790)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitVariable(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.declarations.IrVariable.accept(IrVariable.kt:36)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitStatementContainer(ExpressionCodegen.kt:579)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitBlockBody(ExpressionCodegen.kt:584)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitBlockBody(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.expressions.IrBlockBody.accept(IrBlockBody.kt:20)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.generate(ExpressionCodegen.kt:240)
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.doGenerate(FunctionCodegen.kt:123)
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.generate(FunctionCodegen.kt:44)
+	... 78 more
+Caused by: java.lang.AssertionError: access of const val: SET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:strokeColor type:kotlin.Int visibility:public [final,static] declared in android.R.attr' type=kotlin.Unit superQualifierSymbol=android.R.attr origin=EQ
+  value: CALL 'public open fun getColor (p0: @[NonNull] @[FlexibleNullability] android.content.Context?, p1: kotlin.Int): kotlin.Int declared in androidx.core.content.ContextCompat' type=kotlin.Int origin=null
+    p0: CALL 'public final fun getContext (): @[FlexibleNullability] android.content.Context? declared in android.view.View' type=@[FlexibleNullability] android.content.Context? origin=GET_PROPERTY
+      $this: GET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:itemView type:@[EnhancedNullability] android.view.View visibility:public [final] declared in androidx.recyclerview.widget.RecyclerView.ViewHolder' type=@[EnhancedNullability] android.view.View superQualifierSymbol=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+        receiver: GET_VAR '$holder: com.example.unfazed.RoadmapAdapter.TaskViewHolder declared in com.example.unfazed.RoadmapAdapter.onBindViewHolder$lambda$1$lambda$0' type=com.example.unfazed.RoadmapAdapter.TaskViewHolder origin=null
+    p1: GET_FIELD 'FIELD IR_EXTERNAL_JAVA_DECLARATION_STUB name:primary type:kotlin.Int visibility:public [static] declared in com.example.unfazed.R.color' type=kotlin.Int superQualifierSymbol=com.example.unfazed.R.color origin=null
+
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitFieldAccess(ExpressionCodegen.kt:861)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitFieldAccess(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitor$DefaultImpls.visitSetField(IrElementVisitor.kt:206)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitSetField(ExpressionCodegen.kt:908)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitSetField(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.expressions.IrSetField.accept(IrSetField.kt:21)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitStatementContainer(ExpressionCodegen.kt:579)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitBlockBody(ExpressionCodegen.kt:584)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.visitBlockBody(ExpressionCodegen.kt:138)
+	at org.jetbrains.kotlin.ir.expressions.IrBlockBody.accept(IrBlockBody.kt:20)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen.generate(ExpressionCodegen.kt:240)
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.doGenerate(FunctionCodegen.kt:123)
+	at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen.generate(FunctionCodegen.kt:44)
+	... 95 more
+
+
