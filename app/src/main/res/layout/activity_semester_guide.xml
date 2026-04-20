@@ -1,439 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="#FAFAFA"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/primary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:titleTextColor="@color/white"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:contentInsetStart="0dp"/>
 
-        <LinearLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exam Prep Center"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#111827"
+            android:letterSpacing="-0.02"/>
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#E5E7EB"
+            app:strokeWidth="1.5dp">
 
-            <!-- Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="📚 Smart Semester Preparation"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Get a personalized study timetable based on your semester and exam schedule"
-                android:textSize="14sp"
-                android:textColor="@color/text_secondary"
-                android:layout_marginBottom="24dp"/>
-
-            <!-- Semester Selection -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🎓 Select Your Semester"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="12dp"/>
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupSemester"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:singleSelection="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSem1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Semester 1"
-                    android:checkable="true"
-                    android:backgroundTint="@color/primary"
-                    android:textColor="@color/white"/>
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSem2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Semester 2"
-                    android:checkable="true"
-                    android:backgroundTint="@color/primary"
-                    android:textColor="@color/white"/>
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSem3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Semester 3"
-                    android:checkable="true"
-                    android:backgroundTint="@color/primary"
-                    android:textColor="@color/white"/>
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSem4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Semester 4"
-                    android:checkable="true"
-                    android:backgroundTint="@color/primary"
-                    android:textColor="@color/white"/>
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSem5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Semester 5"
-                    android:checkable="true"
-                    android:backgroundTint="@color/primary"
-                    android:textColor="@color/white"
-                    android:checked="true"/>
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSem6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Semester 6"
-                    android:checkable="true"
-                    android:backgroundTint="@color/primary"
-                    android:textColor="@color/white"/>
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSem7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Semester 7"
-                    android:checkable="true"
-                    android:backgroundTint="@color/primary"
-                    android:textColor="@color/white"/>
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSem8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Semester 8"
-                    android:checkable="true"
-                    android:backgroundTint="@color/primary"
-                    android:textColor="@color/white"/>
-
-            </com.google.android.material.chip.ChipGroup>
-
-            <!-- Exam Date Selection -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="📅 Days Left for Exam"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="12dp"/>
-
-            <com.google.android.material.slider.Slider
-                android:id="@+id/sliderDaysLeft"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:valueFrom="1"
-                android:valueTo="180"
-                android:value="60"
-                android:stepSize="1"
-                app:thumbColor="@color/primary"
-                app:trackColorActive="@color/primary"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:id="@+id/tvDaysLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="60 days left"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary"
-                android:layout_marginBottom="24dp"/>
-
-            <!-- Study Hours per Day -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⏰ Study Hours Available Per Day"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="12dp"/>
-
-            <com.google.android.material.slider.Slider
-                android:id="@+id/sliderStudyHours"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:valueFrom="1"
-                android:valueTo="12"
-                android:value="4"
-                android:stepSize="0.5"
-                app:thumbColor="@color/secondary"
-                app:trackColorActive="@color/secondary"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:id="@+id/tvStudyHours"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4 hours/day"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/secondary"
-                android:layout_marginBottom="24dp"/>
-
-            <!-- Generate Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnGenerate"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Generate Smart Timetable"
-                android:textSize="16sp"
-                app:cornerRadius="12dp"
-                app:backgroundTint="@color/primary"
-                android:layout_marginBottom="24dp"/>
-
-            <!-- Generated Timetable Layout (Initially Hidden) -->
             <LinearLayout
-                android:id="@+id/layoutTimetable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:padding="20dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/text_hint"
-                    android:layout_marginVertical="16dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Semester"
+                    android:textStyle="bold"
+                    android:textColor="#374151"
+                    android:layout_marginBottom="8dp"/>
 
-                <!-- Exam Strategy Card -->
-                <androidx.cardview.widget.CardView
+                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    android:layout_marginBottom="16dp">
+                    android:scrollbars="none"
+                    android:layout_marginBottom="24dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupSemester"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
 
-                        <TextView
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipSem3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="📊 Exam Preparation Strategy"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/primary"
-                            android:layout_marginBottom="12dp"/>
+                            android:text="Sem 3"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
-                        <TextView
-                            android:id="@+id/tvStrategy"
-                            android:layout_width="match_parent"
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipSem4"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="14sp"
-                            android:textColor="@color/text_primary"
-                            android:lineSpacingExtra="6dp"/>
+                            android:text="Sem 4"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipSem5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sem 5"
+                            android:checked="true"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
-                <!-- Subjects Card -->
-                <androidx.cardview.widget.CardView
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipSem6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sem 6"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <TextView
+                    android:id="@+id/tvDaysLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="60 days left for exam"
+                    android:textStyle="bold"
+                    android:textColor="#374151"/>
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderDaysLeft"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    android:layout_marginBottom="16dp">
+                    android:valueFrom="1"
+                    android:valueTo="180"
+                    android:value="60"
+                    app:thumbColor="#6C63FF"
+                    app:trackColorActive="#6C63FF"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                <TextView
+                    android:id="@+id/tvStudyHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.0 hours/day"
+                    android:textStyle="bold"
+                    android:textColor="#374151"
+                    android:layout_marginTop="16dp"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📖 Your Subjects"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/primary"
-                            android:layout_marginBottom="12dp"/>
-
-                        <TextView
-                            android:id="@+id/tvSubjects"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="14sp"
-                            android:textColor="@color/text_primary"
-                            android:lineSpacingExtra="6dp"/>
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Daily Timetable Card -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderStudyHours"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    android:layout_marginBottom="16dp">
+                    android:valueFrom="1"
+                    android:valueTo="12"
+                    android:value="4"
+                    app:thumbColor="#6C63FF"
+                    app:trackColorActive="#6C63FF"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="⏰ Your Personalized Timetable"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/primary"
-                            android:layout_marginBottom="12dp"/>
-
-                        <TextView
-                            android:id="@+id/tvTimetable"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="14sp"
-                            android:textColor="@color/text_primary"
-                            android:lineSpacingExtra="6dp"/>
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Syllabus Breakdown Card -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGenerate"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    android:layout_marginBottom="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📚 Syllabus  Topic Priority"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/primary"
-                            android:layout_marginBottom="12dp"/>
-
-                        <TextView
-                            android:id="@+id/tvSyllabusBreakdown"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="13sp"
-                            android:textColor="@color/text_primary"
-                            android:lineSpacingExtra="6dp"/>
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Weekly Plan Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    android:layout_marginBottom="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📅 Weekly Study Plan"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/primary"
-                            android:layout_marginBottom="12dp"/>
-
-                        <TextView
-                            android:id="@+id/tvWeeklyPlan"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="14sp"
-                            android:textColor="@color/text_primary"
-                            android:lineSpacingExtra="6dp"/>
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Study Tips Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    android:layout_marginBottom="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="💡 Smart Study Tips"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/primary"
-                            android:layout_marginBottom="12dp"/>
-
-                        <TextView
-                            android:id="@+id/tvTips"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="14sp"
-                            android:textColor="@color/text_primary"
-                            android:lineSpacingExtra="6dp"/>
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Generate Smart Plan"
+                    app:cornerRadius="12dp"
+                    android:backgroundTint="#6C63FF"/>
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:id="@+id/layoutTimetable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="24dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#0F172A"
+                android:layout_marginBottom="16dp">
+                <TextView
+                    android:id="@+id/tvStrategy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:textColor="#F1F5F9"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="4dp"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Syllabus Breakdown"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="12dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1.5dp"
+                android:layout_marginBottom="16dp">
+                <TextView
+                    android:id="@+id/tvSyllabusBreakdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="#374151"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1.5dp"
+                android:layout_marginBottom="16dp">
+                <TextView
+                    android:id="@+id/tvTimetable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="#374151"/>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
-
     </LinearLayout>
-
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
