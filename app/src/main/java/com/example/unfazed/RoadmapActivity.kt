@@ -3,11 +3,11 @@ package com.example.unfazed
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.Calendar
 
 class RoadmapActivity : AppCompatActivity() {
 
@@ -15,36 +15,30 @@ class RoadmapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_roadmap)
 
-        // 1. Setup Toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Action Plan"
+        supportActionBar?.title = "Career Roadmap"
 
-        // 2. Retrieve student profile from Intent
         val name = intent.getStringExtra("name") ?: "Student"
         val branch = intent.getStringExtra("branch") ?: "your branch"
         val goal = intent.getStringExtra("goal") ?: "Placement"
         val year = intent.getStringExtra("year") ?: "1st Year"
 
         val tvGoalTitle = findViewById<TextView>(R.id.tvGoalTitle)
-        tvGoalTitle.text = "$name's Path to $goal"
+        tvGoalTitle.text = "$name's $goal Roadmap"
 
-        // 3. Generate the structured data based on user profile
-        val taskList = generateDynamicTasks(branch, goal, year)
+        val taskList = generateSmartPlacementRoadmap(branch, goal, year)
 
-        // 4. Setup the RecyclerView & Adapter
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewRoadmap)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        val adapter = RoadmapAdapter(taskList) { actionType ->
-            handleActionClick(actionType)
+        val adapter = RoadmapAdapter(taskList) { actionType, data ->
+            handleActionClick(actionType, data)
         }
         recyclerView.adapter = adapter
     }
 
-    // 🚀 This function decides WHERE the button takes the student!
-    private fun handleActionClick(actionType: ActionType) {
+    private fun handleActionClick(actionType: ActionType, data: Map<String, String>?) {
         when (actionType) {
             ActionType.OPEN_RESOURCES -> {
                 startActivity(Intent(this, CampusResourcesActivity::class.java))
@@ -53,40 +47,319 @@ class RoadmapActivity : AppCompatActivity() {
                 startActivity(Intent(this, OpportunitiesActivity::class.java))
             }
             ActionType.OPEN_CHATBOT -> {
-                startActivity(Intent(this, ChatbotActivity::class.java))
+                val intent = Intent(this, ChatbotActivity::class.java)
+                data?.let {
+                    intent.putExtra("topic", it["topic"])
+                    intent.putExtra("context", it["context"])
+                }
+                startActivity(intent)
+            }
+            ActionType.OPEN_SEMESTER_GUIDE -> {
+                startActivity(Intent(this, SemesterGuideActivity::class.java))
             }
         }
     }
 
-    // 🧠 The "Brain": Generates specific tasks as objects
-    private fun generateDynamicTasks(branch: String, goal: String, year: String): List<RoadmapTask> {
+    private fun generateSmartPlacementRoadmap(branch: String, goal: String, year: String): List<RoadmapTask> {
         val tasks = mutableListOf<RoadmapTask>()
+        val currentYear = extractYearNumber(year)
 
-        if (goal.contains("Placement")) {
-            if (year == "1st Year" || year == "2nd Year") {
-                tasks.add(RoadmapTask(1, "Master Core Fundamentals", "Learn Python/Java and DSA basics.", "Semester 1-3", TaskStatus.COMPLETED, null, null))
-                tasks.add(RoadmapTask(2, "Practice Hands-on Coding", "Solve 50+ problems. Use the IT Labs or DigiFac for a quiet environment.", "Current Focus", TaskStatus.ACTIVE, "Book DigiFac Lab", ActionType.OPEN_RESOURCES))
-                tasks.add(RoadmapTask(3, "Build Your First Project", "Create a simple Web or Android app to understand development.", "Next Semester", TaskStatus.LOCKED, "Ask AI for Ideas", ActionType.OPEN_CHATBOT))
-                tasks.add(RoadmapTask(4, "Join a Hackathon", "Apply your skills in real-time. Don't worry about winning, just participate!", "Year 2 End", TaskStatus.LOCKED, "Find Hackathons", ActionType.OPEN_OPPORTUNITIES))
-            } else {
-                tasks.add(RoadmapTask(1, "Build Advanced Projects", "Develop 2 strong projects for your resume using A-Hub resources.", "Current Focus", TaskStatus.ACTIVE, "Explore A-Hub", ActionType.OPEN_RESOURCES))
-                tasks.add(RoadmapTask(2, "Secure Summer Internship", "Apply to at least 10 companies. Your resume needs real-world experience.", "Next Month", TaskStatus.ACTIVE, "View Internships", ActionType.OPEN_OPPORTUNITIES))
-                tasks.add(RoadmapTask(3, "Mock Interviews", "Practice HR and Technical interviews with peers in the Central Library.", "Semester 7", TaskStatus.LOCKED, null, null))
+        when {
+            goal.contains("Placement") || goal.contains("Job") -> {
+                // PHASE 1: Foundation (Year 1-2)
+                if (currentYear <= 2) {
+                    tasks.addAll(getFoundationPhase(branch))
+                }
+
+                // PHASE 2: Skill Building (Year 2-3)
+                if (currentYear <= 3) {
+                    tasks.addAll(getSkillBuildingPhase(branch))
+                }
+
+                // PHASE 3: Advanced Preparation (Year 3-4)
+                if (currentYear >= 3) {
+                    tasks.addAll(getAdvancedPhase(branch))
+                }
+
+                // PHASE 4: Placement Season (Year 4)
+                if (currentYear >= 4) {
+                    tasks.addAll(getPlacementPhase(branch))
+                }
             }
-        }
-        else if (goal.contains("Entrepreneurship") || goal.contains("Startup")) {
-            tasks.add(RoadmapTask(1, "Find a Problem to Solve", "Observe campus and society. What is broken? Write it down.", "Current", TaskStatus.COMPLETED, null, null))
-            tasks.add(RoadmapTask(2, "Learn Business Basics", "Attend weekend workshops at A-Hub to learn about MVPs and pitching.", "Current Focus", TaskStatus.ACTIVE, "Check A-Hub Events", ActionType.OPEN_RESOURCES))
-            tasks.add(RoadmapTask(3, "Build an MVP", "Create a prototype of your idea using DigiFac equipment.", "Next Semester", TaskStatus.LOCKED, "View Labs", ActionType.OPEN_RESOURCES))
-        }
-        else {
-            // Default generic roadmap for GATE/Higher Studies
-            tasks.add(RoadmapTask(1, "Analyze the Syllabus", "Download the official syllabus for $branch.", "Current", TaskStatus.ACTIVE, "Ask AI Chatbot", ActionType.OPEN_CHATBOT))
-            tasks.add(RoadmapTask(2, "Collect Reference Books", "Visit the AU E-Library and issue standard textbooks.", "Next Week", TaskStatus.LOCKED, "Open E-Library", ActionType.OPEN_RESOURCES))
-            tasks.add(RoadmapTask(3, "Start Mock Tests", "Test your knowledge under time constraints.", "Next Semester", TaskStatus.LOCKED, null, null))
+            goal.contains("GATE") -> {
+                tasks.addAll(getGATERoadmap(branch, currentYear))
+            }
+            else -> {
+                tasks.addAll(getGeneralRoadmap(branch))
+            }
         }
 
         return tasks
+    }
+
+    private fun getFoundationPhase(branch: String): List<RoadmapTask> {
+        return listOf(
+            RoadmapTask(
+                id = 1,
+                title = "🎯 Programming Fundamentals",
+                description = if (branch.contains("CSE"))
+                    "Master Python/Java fundamentals. Understand OOP concepts, data types, and basic algorithms."
+                else "Learn basics of programming in C/Python. Understand logic building and problem-solving.",
+                semesterTarget = "Year 1 - Semester 1/2",
+                status = TaskStatus.ACTIVE,
+                actionText = "Start Learning",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "Programming Fundamentals", "context" to "Beginner programming guide"),
+                timeline = "Month 1-3",
+                estimatedHours = 120,
+                resources = listOf("NPTEL", "Coursera", "YouTube")
+            ),
+            RoadmapTask(
+                id = 2,
+                title = "📊 Data Structures & Algorithms",
+                description = "Learn Arrays, Linked Lists, Stacks, Queues, Trees, Graphs. Master time complexity analysis.",
+                semesterTarget = "Year 1 - Semester 2",
+                status = TaskStatus.LOCKED,
+                actionText = "Get Study Plan",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "DSA Roadmap", "context" to "Complete DSA preparation guide"),
+                timeline = "Month 4-6",
+                estimatedHours = 200,
+                resources = listOf("LeetCode", "GeeksforGeeks", "CodeChef")
+            ),
+            RoadmapTask(
+                id = 3,
+                title = "💻 Core Computer Science Subjects",
+                description = "Master Operating Systems, DBMS, Computer Networks, and OOP concepts.",
+                semesterTarget = "Year 2 - Semester 3",
+                status = TaskStatus.LOCKED,
+                actionText = "Access Resources",
+                actionType = ActionType.OPEN_RESOURCES,
+                actionData = mapOf("type" to "core_subjects"),
+                timeline = "Month 7-9",
+                estimatedHours = 180,
+                resources = listOf("Standard Textbooks", "NPTEL", "Campus Library")
+            )
+        )
+    }
+
+    private fun getSkillBuildingPhase(branch: String): List<RoadmapTask> {
+        return listOf(
+            RoadmapTask(
+                id = 4,
+                title = "🚀 Build Projects Portfolio",
+                description = if (branch.contains("CSE"))
+                    "Build 2-3 full-stack projects using MERN/MEAN stack. Deploy on cloud platforms."
+                else "Build industry-relevant projects using core engineering tools and technologies.",
+                semesterTarget = "Year 2 - Semester 4",
+                status = TaskStatus.LOCKED,
+                actionText = "Get Project Ideas",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "Project Ideas", "context" to "$branch project suggestions"),
+                timeline = "Month 10-12",
+                estimatedHours = 250,
+                resources = listOf("GitHub", "A-Hub Lab", "Project Lab")
+            ),
+            RoadmapTask(
+                id = 5,
+                title = "🏆 Competitive Programming",
+                description = "Solve 200+ problems on LeetCode/HackerRank. Participate in weekly contests.",
+                semesterTarget = "Year 2 - Semester 4",
+                status = TaskStatus.LOCKED,
+                actionText = "Start Practicing",
+                actionType = ActionType.OPEN_OPPORTUNITIES,
+                actionData = mapOf("type" to "coding_contests"),
+                timeline = "Ongoing",
+                estimatedHours = 150,
+                resources = listOf("LeetCode", "Codeforces", "CodeChef")
+            ),
+            RoadmapTask(
+                id = 6,
+                title = "📝 Aptitude & Reasoning",
+                description = "Master quantitative aptitude, logical reasoning, and verbal ability.",
+                semesterTarget = "Year 3 - Semester 5",
+                status = TaskStatus.LOCKED,
+                actionText = "Practice Tests",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "Aptitude Preparation", "context" to "Company-specific aptitude"),
+                timeline = "Month 13-15",
+                estimatedHours = 100,
+                resources = listOf("Indiabix", "Face Prep", "Previous Papers")
+            )
+        )
+    }
+
+    private fun getAdvancedPhase(branch: String): List<RoadmapTask> {
+        return listOf(
+            RoadmapTask(
+                id = 7,
+                title = "🎓 Resume Building & LinkedIn Optimization",
+                description = "Create ATS-friendly resume. Optimize LinkedIn profile. Build strong portfolio/GitHub.",
+                semesterTarget = "Year 3 - Semester 5",
+                status = TaskStatus.LOCKED,
+                actionText = "Get Template",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "Resume Tips", "context" to "$branch resume template"),
+                timeline = "Month 16",
+                estimatedHours = 40,
+                resources = listOf("Career Center", "Online Templates")
+            ),
+            RoadmapTask(
+                id = 8,
+                title = "💼 Internship Applications",
+                description = "Apply to 20+ companies for summer internship. Prepare for internship interviews.",
+                semesterTarget = "Year 3 - Semester 6",
+                status = TaskStatus.LOCKED,
+                actionText = "Find Internships",
+                actionType = ActionType.OPEN_OPPORTUNITIES,
+                actionData = mapOf("type" to "internships"),
+                timeline = "Month 17-18",
+                estimatedHours = 80,
+                resources = listOf("Internshala", "LinkedIn", "Company Websites")
+            ),
+            RoadmapTask(
+                id = 9,
+                title = "🎯 Company-Specific Preparation",
+                description = "Research target companies. Practice company-specific questions and mock tests.",
+                semesterTarget = "Year 3 - Semester 6",
+                status = TaskStatus.LOCKED,
+                actionText = "View Companies",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "Company Prep", "context" to "Top companies guide"),
+                timeline = "Month 19-21",
+                estimatedHours = 120,
+                resources = listOf("Glassdoor", "LeetCode Discuss", "YouTube")
+            )
+        )
+    }
+
+    private fun getPlacementPhase(branch: String): List<RoadmapTask> {
+        return listOf(
+            RoadmapTask(
+                id = 10,
+                title = "⚡ Mock Interview Practice",
+                description = "Take 10+ mock interviews. Practice technical, HR, and managerial rounds.",
+                semesterTarget = "Year 4 - Semester 7",
+                status = TaskStatus.LOCKED,
+                actionText = "Start Practice",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "Mock Interviews", "context" to "Interview preparation"),
+                timeline = "Month 22-24",
+                estimatedHours = 60,
+                resources = listOf("Pramp", "InterviewBit", "College Seniors")
+            ),
+            RoadmapTask(
+                id = 11,
+                title = "📢 Placement Drive Preparation",
+                description = "Register for placement drives. Prepare for group discussions and aptitude tests.",
+                semesterTarget = "Year 4 - Semester 7",
+                status = TaskStatus.LOCKED,
+                actionText = "Check Schedule",
+                actionType = ActionType.OPEN_OPPORTUNITIES,
+                actionData = mapOf("type" to "placement_drives"),
+                timeline = "Month 25-27",
+                estimatedHours = 50,
+                resources = listOf("Placement Cell", "Training Center")
+            ),
+            RoadmapTask(
+                id = 12,
+                title = "🎉 Placement Success!",
+                description = "Apply to dream companies. Ace interviews. Get your offer letter!",
+                semesterTarget = "Year 4 - Semester 8",
+                status = TaskStatus.LOCKED,
+                actionText = "Get Tips",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "Placement Tips", "context" to "Final preparation"),
+                timeline = "Month 28-30",
+                estimatedHours = 40,
+                resources = listOf("Career Center", "Alumni Network")
+            )
+        )
+    }
+
+    private fun getGATERoadmap(branch: String, currentYear: Int): List<RoadmapTask> {
+        return listOf(
+            RoadmapTask(
+                id = 1,
+                title = "📚 Syllabus Completion",
+                description = "Complete 100% of GATE syllabus for $branch. Focus on high-weightage topics.",
+                semesterTarget = "Year 1-3",
+                status = if (currentYear <= 2) TaskStatus.ACTIVE else TaskStatus.COMPLETED,
+                actionText = "View Syllabus",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "GATE Syllabus", "context" to branch),
+                timeline = "Months 1-18",
+                estimatedHours = 400,
+                resources = listOf("Standard Textbooks", "NPTEL", "Previous Papers")
+            ),
+            RoadmapTask(
+                id = 2,
+                title = "✍️ PYQs Practice",
+                description = "Solve previous 10 years' question papers. Analyze patterns and important topics.",
+                semesterTarget = "Year 3",
+                status = if (currentYear == 3) TaskStatus.ACTIVE else TaskStatus.LOCKED,
+                actionText = "Get PYQs",
+                actionType = ActionType.OPEN_RESOURCES,
+                actionData = mapOf("type" to "pyqs"),
+                timeline = "Months 19-24",
+                estimatedHours = 200,
+                resources = listOf("Made Easy", "ACE Academy", "GATE Overflow")
+            ),
+            RoadmapTask(
+                id = 3,
+                title = "📊 Mock Tests & Revision",
+                description = "Take 20+ full-length mock tests. Revise weak areas thoroughly.",
+                semesterTarget = "Year 4",
+                status = if (currentYear >= 4) TaskStatus.ACTIVE else TaskStatus.LOCKED,
+                actionText = "Start Tests",
+                actionType = ActionType.OPEN_OPPORTUNITIES,
+                actionData = mapOf("type" to "mock_tests"),
+                timeline = "Months 25-30",
+                estimatedHours = 150,
+                resources = listOf("Test Series", "Online Platforms")
+            )
+        )
+    }
+
+    private fun getGeneralRoadmap(branch: String): List<RoadmapTask> {
+        return listOf(
+            RoadmapTask(
+                id = 1,
+                title = "🎓 Academic Excellence",
+                description = "Maintain CGPA above 8.0. Focus on core subjects.",
+                semesterTarget = "All Semesters",
+                status = TaskStatus.ACTIVE,
+                actionText = "Study Tips",
+                actionType = ActionType.OPEN_SEMESTER_GUIDE,
+                actionData = null,
+                timeline = "Ongoing",
+                estimatedHours = null,
+                resources = null
+            ),
+            RoadmapTask(
+                id = 2,
+                title = "🔍 Explore Career Options",
+                description = "Research different career paths in $branch.",
+                semesterTarget = "Year 2-3",
+                status = TaskStatus.LOCKED,
+                actionText = "Explore",
+                actionType = ActionType.OPEN_CHATBOT,
+                actionData = mapOf("topic" to "Career Options", "context" to branch),
+                timeline = "Month 6-12",
+                estimatedHours = 50,
+                resources = listOf("Career Center", "Alumni")
+            )
+        )
+    }
+
+    private fun extractYearNumber(year: String): Int {
+        return when {
+            year.contains("1st") -> 1
+            year.contains("2nd") -> 2
+            year.contains("3rd") -> 3
+            year.contains("4th") -> 4
+            else -> 1
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

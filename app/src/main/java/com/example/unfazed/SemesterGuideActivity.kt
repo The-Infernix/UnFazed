@@ -1,10 +1,15 @@
 package com.example.unfazed
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -25,6 +30,8 @@ class SemesterGuideActivity : AppCompatActivity() {
     private lateinit var tvWeeklyPlan: TextView
     private lateinit var tvTips: TextView
     private lateinit var tvSyllabusBreakdown: TextView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var scrollView: ScrollView
 
     private var branch = ""
     private var year = ""
@@ -125,7 +132,7 @@ class SemesterGuideActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "5th Semester Smart Planner"
+        supportActionBar?.title = "Smart Semester Planner"
     }
 
     private fun initViews() {
@@ -142,6 +149,8 @@ class SemesterGuideActivity : AppCompatActivity() {
         tvWeeklyPlan = findViewById(R.id.tvWeeklyPlan)
         tvTips = findViewById(R.id.tvTips)
         tvSyllabusBreakdown = findViewById(R.id.tvSyllabusBreakdown)
+        progressBar = findViewById(R.id.progressBar)
+        scrollView = findViewById(R.id.scrollView)
     }
 
     private fun setupListeners() {
@@ -149,7 +158,14 @@ class SemesterGuideActivity : AppCompatActivity() {
             if (checkedIds.isNotEmpty()) {
                 val chip = findViewById<Chip>(checkedIds[0])
                 selectedSemester = when (chip.text.toString()) {
-                    "Semester 5" -> 5
+                    "Sem 1" -> 1
+                    "Sem 2" -> 2
+                    "Sem 3" -> 3
+                    "Sem 4" -> 4
+                    "Sem 5" -> 5
+                    "Sem 6" -> 6
+                    "Sem 7" -> 7
+                    "Sem 8" -> 8
                     else -> 5
                 }
             }
@@ -166,8 +182,7 @@ class SemesterGuideActivity : AppCompatActivity() {
         }
 
         btnGenerate.setOnClickListener {
-            generateSmartTimetable()
-            layoutTimetable.visibility = LinearLayout.VISIBLE
+            generateWithAnimation()
         }
     }
 
@@ -177,9 +192,55 @@ class SemesterGuideActivity : AppCompatActivity() {
         selectedSemester = 5
     }
 
+    private fun generateWithAnimation() {
+        // Show progress bar and disable button
+        progressBar.visibility = ProgressBar.VISIBLE
+        btnGenerate.isEnabled = false
+        btnGenerate.text = "Generating..."
+
+        // Simulate generation delay for smooth animation
+        Handler(Looper.getMainLooper()).postDelayed({
+            generateSmartTimetable()
+            layoutTimetable.visibility = LinearLayout.VISIBLE
+            showCardsWithAnimation()
+
+            // Hide progress bar and re-enable button
+            progressBar.visibility = ProgressBar.GONE
+            btnGenerate.isEnabled = true
+            btnGenerate.text = "✨ Generate Smart Timetable ✨"
+
+            // Scroll to top of results
+            scrollView.postDelayed({
+                scrollView.smoothScrollTo(0, layoutTimetable.top)
+            }, 300)
+        }, 800)
+    }
+
+    private fun showCardsWithAnimation() {
+        val cards = listOf(
+            findViewById<CardView>(R.id.cardStrategy),
+            findViewById<CardView>(R.id.cardSubjects),
+            findViewById<CardView>(R.id.cardTimetable),
+            findViewById<CardView>(R.id.cardSyllabus),
+            findViewById<CardView>(R.id.cardWeekly),
+            findViewById<CardView>(R.id.cardTips)
+        )
+
+        cards.forEachIndexed { index, card ->
+            card.alpha = 0f
+            card.translationY = 50f
+            card.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(400)
+                .setStartDelay((index * 120).toLong())
+                .start()
+        }
+    }
+
     private fun generateSmartTimetable() {
         val subjects = semester5Subjects.keys.toList()
-        val strategy = generateExamStrategy(subjects)  // FIXED: Pass subjects parameter
+        val strategy = generateExamStrategy(subjects)
         val timetable = generateDailyTimetable(subjects)
         val weeklyPlan = generateWeeklyPlan(subjects)
         val tips = generateStudyTips()
@@ -196,8 +257,8 @@ class SemesterGuideActivity : AppCompatActivity() {
     private fun generateSubjectsWithTopics(subjects: List<String>): String {
         return buildString {
             subjects.forEach { subject ->
-                appendLine("📖 $subject")
-                appendLine("   Topics:")
+                appendLine("📖 **$subject**")
+                appendLine("   ━━━━━━━━━━━━━━━━━━━")
                 semester5Subjects[subject]?.forEach { topic ->
                     appendLine("   • $topic")
                 }
@@ -206,67 +267,66 @@ class SemesterGuideActivity : AppCompatActivity() {
         }
     }
 
-    // FIXED: Added subjects parameter
     private fun generateExamStrategy(subjects: List<String>): String {
         val totalTopics = semester5Subjects.values.flatten().size
         val topicsPerDay = (totalTopics.toFloat() / daysLeft).coerceAtLeast(0.5f)
         val hoursPerTopic = studyHoursPerDay / topicsPerDay
 
         return buildString {
-            appendLine("🎯 5th Semester Exam Strategy")
-            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
+            appendLine("📊 **Your Timeline**")
             appendLine()
-            appendLine("📊 Your Timeline:")
-            appendLine("• Days left: $daysLeft days")
-            appendLine("• Study hours/day: ${String.format("%.1f", studyHoursPerDay)} hours")
-            appendLine("• Total study time: ${String.format("%.0f", daysLeft * studyHoursPerDay)} hours")
-            appendLine("• Total topics to cover: $totalTopics")
-            appendLine("• Topics per day: ${String.format("%.1f", topicsPerDay)}")
-            appendLine("• Hours per topic: ${String.format("%.1f", hoursPerTopic)}")
+            appendLine("• Days left: **$daysLeft** days")
+            appendLine("• Study hours/day: **${String.format("%.1f", studyHoursPerDay)}** hours")
+            appendLine("• Total study time: **${String.format("%.0f", daysLeft * studyHoursPerDay)}** hours")
+            appendLine("• Total topics to cover: **$totalTopics**")
+            appendLine("• Topics per day: **${String.format("%.1f", topicsPerDay)}**")
+            appendLine("• Hours per topic: **${String.format("%.1f", hoursPerTopic)}**")
+            appendLine()
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
             appendLine()
 
             when {
                 daysLeft > 120 -> {
-                    appendLine("📌 Phase 1 (Days 1-${daysLeft - 90}): Deep Learning")
+                    appendLine("**📌 Phase 1** (Days 1-${daysLeft - 90}): Deep Learning")
                     appendLine("   • Master all 3 subjects thoroughly")
                     appendLine("   • Focus on understanding concepts")
                     appendLine("   • Solve numerical problems")
                     appendLine()
-                    appendLine("📌 Phase 2 (Next 60 days): Practice & Revision")
+                    appendLine("**📌 Phase 2** (Next 60 days): Practice & Revision")
                     appendLine("   • Solve previous year papers")
                     appendLine("   • Practice important topics")
                     appendLine()
-                    appendLine("📌 Phase 3 (Last 30 days): Intensive Revision")
+                    appendLine("**📌 Phase 3** (Last 30 days): Intensive Revision")
                     appendLine("   • Focus on weak areas")
                     appendLine("   • Take mock tests")
                 }
                 daysLeft in 91..120 -> {
-                    appendLine("📌 Phase 1 (Days 1-${daysLeft - 60}): Complete Syllabus")
+                    appendLine("**📌 Phase 1** (Days 1-${daysLeft - 60}): Complete Syllabus")
                     appendLine("   • Cover all topics systematically")
                     appendLine("   • Practice numericals daily")
                     appendLine()
-                    appendLine("📌 Phase 2 (Last 60 days): Revision & Testing")
+                    appendLine("**📌 Phase 2** (Last 60 days): Revision & Testing")
                     appendLine("   • Solve 5 years PYQs")
                     appendLine("   • Take weekly mock tests")
                 }
                 daysLeft in 61..90 -> {
-                    appendLine("📌 Phase 1 (Days 1-${daysLeft - 30}): Rapid Coverage")
+                    appendLine("**📌 Phase 1** (Days 1-${daysLeft - 30}): Rapid Coverage")
                     appendLine("   • Cover high-weightage topics first")
                     appendLine("   • Focus on important concepts")
                     appendLine()
-                    appendLine("📌 Phase 2 (Last 30 days): Smart Revision")
+                    appendLine("**📌 Phase 2** (Last 30 days): Smart Revision")
                     appendLine("   • Solve PYQs (last 3 years)")
                     appendLine("   • Take mock tests every 3 days")
                 }
                 daysLeft in 31..60 -> {
-                    appendLine("⚠️ Intensive Preparation Mode:")
+                    appendLine("**⚠️ Intensive Preparation Mode:**")
                     appendLine("• Focus only on high-priority topics")
                     appendLine("• Solve problems from each unit")
                     appendLine("• Take mock tests every 2 days")
                     appendLine("• Revise formulas daily")
                 }
                 daysLeft <= 30 -> {
-                    appendLine("🚨 CRITICAL - Last Minute Strategy:")
+                    appendLine("**🚨 CRITICAL - Last Minute Strategy:**")
                     appendLine("• ONLY revise what you already know")
                     appendLine("• Solve 1 full test daily")
                     appendLine("• Don't learn new topics")
@@ -276,7 +336,9 @@ class SemesterGuideActivity : AppCompatActivity() {
             }
 
             appendLine()
-            appendLine("📊 Weekly Target:")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
+            appendLine()
+            appendLine("**📊 Weekly Target:**")
             appendLine("• Subjects to cover: ${(3.0 * (7.0 / daysLeft)).coerceAtMost(3.0).toInt()}")
             appendLine("• Problems to solve: ${(studyHoursPerDay * 7 * 5).toInt()}")
             appendLine("• Mock tests: ${if (daysLeft > 60) 1 else 2}")
@@ -288,33 +350,35 @@ class SemesterGuideActivity : AppCompatActivity() {
         val prioritySubjects = prioritizeSubjects(subjects)
 
         return buildString {
-            appendLine("⏰ Your Personalized Daily Timetable")
+            appendLine("⏰ **Your Personalized Daily Schedule**")
             appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
             appendLine()
-            appendLine("🌅 Morning Session (6:00 AM - 9:00 AM):")
-            appendLine("   • 6:00-6:30: Wake up & Exercise")
-            appendLine("   • 6:30-7:30: ${prioritySubjects[0]} (${String.format("%.1f", hoursPerSubject)} hour)")
-            appendLine("   • 7:30-8:30: ${prioritySubjects[1]} (${String.format("%.1f", hoursPerSubject)} hour)")
-            appendLine("   • 8:30-9:00: Breakfast & College prep")
+            appendLine("**🌅 Morning Session (6:00 AM - 9:00 AM)**")
+            appendLine("   • 6:00-6:30: 🌟 Wake up & Exercise")
+            appendLine("   • 6:30-7:30: 📖 ${prioritySubjects[0]} (${String.format("%.1f", hoursPerSubject)} hour)")
+            appendLine("   • 7:30-8:30: 📖 ${prioritySubjects[1]} (${String.format("%.1f", hoursPerSubject)} hour)")
+            appendLine("   • 8:30-9:00: 🍳 Breakfast & College prep")
             appendLine()
-            appendLine("📚 College Hours (9:00 AM - 5:00 PM):")
+            appendLine("**📚 College Hours (9:00 AM - 5:00 PM)**")
             appendLine("   • Attend all ${prioritySubjects[0]} lectures")
             appendLine("   • Take notes and clarify doubts")
             appendLine("   • Utilize free periods for ${prioritySubjects[1]} revision")
             appendLine()
-            appendLine("🌙 Evening Session (5:00 PM - 10:00 PM):")
-            appendLine("   • 5:00-6:00: Rest & Refresh")
-            appendLine("   • 6:00-7:00: Practice problems (${prioritySubjects[0]})")
-            appendLine("   • 7:00-8:00: ${prioritySubjects[2]} (${String.format("%.1f", hoursPerSubject)} hour)")
-            appendLine("   • 8:00-9:00: Solve numericals (${prioritySubjects[1]})")
-            appendLine("   • 9:00-10:00: Plan next day & Relax")
+            appendLine("**🌙 Evening Session (5:00 PM - 10:00 PM)**")
+            appendLine("   • 5:00-6:00: ☕ Rest & Refresh")
+            appendLine("   • 6:00-7:00: ✏️ Practice problems (${prioritySubjects[0]})")
+            appendLine("   • 7:00-8:00: 📖 ${prioritySubjects[2]} (${String.format("%.1f", hoursPerSubject)} hour)")
+            appendLine("   • 8:00-9:00: 🧮 Solve numericals (${prioritySubjects[1]})")
+            appendLine("   • 9:00-10:00: 📅 Plan next day & Relax")
             appendLine()
-            appendLine("💤 Night Routine:")
-            appendLine("   • 10:00 PM: Stop studying")
-            appendLine("   • 10:00-10:30: Quick revision of formulas")
-            appendLine("   • 10:30 PM: Sleep (7-8 hours essential)")
+            appendLine("**💤 Night Routine**")
+            appendLine("   • 10:00 PM: 🛑 Stop studying")
+            appendLine("   • 10:00-10:30: 📝 Quick revision of formulas")
+            appendLine("   • 10:30 PM: 😴 Sleep (7-8 hours essential)")
             appendLine()
-            appendLine("📌 Subject Focus Areas:")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
+            appendLine()
+            appendLine("**📌 Subject Focus Areas:**")
             appendLine("   • ${prioritySubjects[0]}: Theory + Numericals")
             appendLine("   • ${prioritySubjects[1]}: Problem Solving")
             appendLine("   • ${prioritySubjects[2]}: Concept Building")
@@ -322,7 +386,6 @@ class SemesterGuideActivity : AppCompatActivity() {
     }
 
     private fun prioritizeSubjects(subjects: List<String>): List<String> {
-        // Prioritize based on complexity and importance
         return when {
             daysLeft <= 30 -> listOf(
                 "Compiler Design",
@@ -342,30 +405,32 @@ class SemesterGuideActivity : AppCompatActivity() {
         val prioritySubjects = prioritizeSubjects(subjects)
 
         return buildString {
-            appendLine("📅 5th Semester Weekly Study Plan")
+            appendLine("**📅 Weekly Study Rotation**")
             appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
             appendLine()
-            appendLine("Monday - Wednesday:")
-            appendLine("   📖 Focus: ${prioritySubjects[0]}")
+            appendLine("**Monday - Wednesday:**")
+            appendLine("   📖 Focus: **${prioritySubjects[0]}**")
             appendLine("   • Complete 3-4 topics")
             appendLine("   • Solve 20 problems")
             appendLine("   • Revise previous topics")
             appendLine("   • ${getSpecificTopicsForSubject(prioritySubjects[0])}")
             appendLine()
-            appendLine("Thursday - Saturday:")
-            appendLine("   📖 Focus: ${prioritySubjects[1]}")
+            appendLine("**Thursday - Saturday:**")
+            appendLine("   📖 Focus: **${prioritySubjects[1]}**")
             appendLine("   • Complete 3-4 topics")
             appendLine("   • Solve 20 problems")
             appendLine("   • Practice numericals")
             appendLine("   • ${getSpecificTopicsForSubject(prioritySubjects[1])}")
             appendLine()
-            appendLine("Sunday:")
+            appendLine("**Sunday:**")
             appendLine("   🌅 Morning: ${prioritySubjects[2]} Revision")
             appendLine("   📝 Afternoon: Full Syllabus Mock Test")
             appendLine("   📊 Evening: Analyze mistakes")
             appendLine("   📅 Night: Plan next week's targets")
             appendLine()
-            appendLine("📌 Weekly Targets:")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
+            appendLine()
+            appendLine("**📌 Weekly Targets:**")
             appendLine("   • Topics to complete: 10-12")
             appendLine("   • Problems to solve: 60-80")
             appendLine("   • Mock tests: 1-2")
@@ -375,21 +440,21 @@ class SemesterGuideActivity : AppCompatActivity() {
 
     private fun getSpecificTopicsForSubject(subject: String): String {
         return when (subject) {
-            "Compiler Design" -> "   • Focus: Syntax Analysis, Code Optimization"
-            "Artificial Intelligence" -> "   • Focus: Search Algorithms, NLP, Expert Systems"
-            "Data Communications & Computer Networks" -> "   • Focus: TCP/IP, Routing, Network Models"
+            "Compiler Design" -> "   • **Focus:** Syntax Analysis, Code Optimization"
+            "Artificial Intelligence" -> "   • **Focus:** Search Algorithms, NLP, Expert Systems"
+            "Data Communications & Computer Networks" -> "   • **Focus:** TCP/IP, Routing, Network Models"
             else -> "   • Cover all important topics"
         }
     }
 
     private fun generateSyllabusBreakdown(): String {
         return buildString {
-            appendLine("📚 Detailed Syllabus Breakdown")
+            appendLine("**📚 Detailed Syllabus with Priority**")
             appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
             appendLine()
 
             semester5Subjects.forEach { (subject, topics) ->
-                appendLine("🔹 $subject")
+                appendLine("**🔹 $subject**")
                 appendLine("   ━━━━━━━━━━━━━━━━━━━")
                 topics.forEachIndexed { index, topic ->
                     val weight = topicWeights[subject]?.get(topic) ?: 5
@@ -403,7 +468,9 @@ class SemesterGuideActivity : AppCompatActivity() {
                 appendLine()
             }
 
-            appendLine("💡 Exam Pattern Tips:")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
+            appendLine()
+            appendLine("**💡 Exam Pattern Tips:**")
             appendLine("   • DCCN: Theory 60% + Numericals 40%")
             appendLine("   • AI: Concepts 70% + Problem Solving 30%")
             appendLine("   • CD: Technical 80% + Application 20%")
@@ -412,46 +479,44 @@ class SemesterGuideActivity : AppCompatActivity() {
 
     private fun generateStudyTips(): String {
         return buildString {
-            appendLine("💡 Smart Study Tips for 5th Semester")
-            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
+            appendLine("**🎯 Subject-Wise Strategy**")
             appendLine()
-            appendLine("🎯 Subject-Wise Strategy:")
-            appendLine()
-            appendLine("📡 Data Communications & Computer Networks:")
+            appendLine("**📡 Data Communications & Computer Networks:**")
             appendLine("   • Draw OSI/TCP/IP diagrams daily")
             appendLine("   • Practice numerical problems")
             appendLine("   • Use mnemonics for protocols")
             appendLine()
-            appendLine("🤖 Artificial Intelligence:")
+            appendLine("**🤖 Artificial Intelligence:**")
             appendLine("   • Implement search algorithms on paper")
             appendLine("   • Practice logic problems")
             appendLine("   • Understand real-world applications")
             appendLine()
-            appendLine("⚙️ Compiler Design:")
+            appendLine("**⚙️ Compiler Design:**")
             appendLine("   • Practice parsing examples")
             appendLine("   • Draw compiler phases diagram")
             appendLine("   • Solve optimization problems")
             appendLine()
-            appendLine("📱 Best Resources:")
+            appendLine("━━━━━━━━━━━━━━━━━━━━━━━━━")
+            appendLine()
+            appendLine("**📱 Best Resources:**")
             appendLine("   • DCCN: Tanenbaum, Kurose")
             appendLine("   • AI: Russell & Norvig")
             appendLine("   • CD: Aho, Ullman (Dragon Book)")
             appendLine("   • YouTube: NPTEL lectures")
             appendLine()
-            appendLine("⚠️ Common Mistakes to Avoid:")
+            appendLine("**⚠️ Common Mistakes to Avoid:**")
             appendLine("   • Don't skip numerical problems in DCCN")
             appendLine("   • Don't memorize AI algorithms without understanding")
             appendLine("   • Don't ignore compiler phases sequence")
             appendLine("   • Avoid last-minute learning in CD")
             appendLine()
-            appendLine("✅ Last Week Strategy:")
+            appendLine("**✅ Last Week Strategy:**")
             appendLine("   • Only revise what you know")
             appendLine("   • Focus on high-weightage topics")
             appendLine("   • Practice time management")
             appendLine("   • Stay calm and confident")
         }
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
