@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -31,7 +30,7 @@ class SemesterGuideActivity : AppCompatActivity() {
     private lateinit var tvTips: TextView
     private lateinit var tvSyllabusBreakdown: TextView
     private lateinit var progressBar: ProgressBar
-    private lateinit var scrollView: ScrollView
+    // Removed scrollView reference
 
     private var branch = ""
     private var year = ""
@@ -150,7 +149,7 @@ class SemesterGuideActivity : AppCompatActivity() {
         tvTips = findViewById(R.id.tvTips)
         tvSyllabusBreakdown = findViewById(R.id.tvSyllabusBreakdown)
         progressBar = findViewById(R.id.progressBar)
-        scrollView = findViewById(R.id.scrollView)
+        // Removed scrollView initialization
     }
 
     private fun setupListeners() {
@@ -209,10 +208,7 @@ class SemesterGuideActivity : AppCompatActivity() {
             btnGenerate.isEnabled = true
             btnGenerate.text = "✨ Generate Smart Timetable ✨"
 
-            // Scroll to top of results
-            scrollView.postDelayed({
-                scrollView.smoothScrollTo(0, layoutTimetable.top)
-            }, 300)
+            // Removed scrollView scrolling
         }, 800)
     }
 
