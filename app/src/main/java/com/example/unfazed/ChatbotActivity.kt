@@ -105,7 +105,8 @@ class ChatbotActivity : AppCompatActivity() {
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "AI Assistant (Elephant)"
+        supportActionBar?.title = "Unfazed AI Mentor"
+        toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
     private fun setupRecyclerView() {
@@ -146,6 +147,7 @@ class ChatbotActivity : AppCompatActivity() {
 
         val apiKey = BuildConfig.OPENROUTER_API_KEY
 
+        // 🧠 INJECTING THE ANDHRA UNIVERSITY KNOWLEDGE BASE INTO THE AI
         val systemPrompt = """
             You are 'Unfazed AI', an elite academic and career advisor exclusively for students at Andhra University (AUCE).
             You are talking to $userName, who is a $userYear student studying $userBranch, with a primary goal of $userGoal.
@@ -153,7 +155,13 @@ class ChatbotActivity : AppCompatActivity() {
             Rules:
             1. Always tailor your advice specifically to their branch ($userBranch) and goal ($userGoal).
             2. Keep answers concise, actionable, and highly structured using bullet points and emojis.
-            3. Mention real AU facilities like A-Hub, Central Library, or DigiFac when relevant.
+            3. STRICTLY use the following real Andhra University facilities and context when giving advice:
+               - Libraries: Dr. V.S. Krishna Central Library (400k books, 24/7 reading room), AU Cyber Laboratory.
+               - Innovation/Startups: a-hub (AU Incubation Council at North Campus), NASSCOM Centre of Excellence (IoT & AI).
+               - Research: Centre for Cyber Security/AI-ML, Nanotechnology CoE, Advanced Analytical Lab (SEM & Micropulse Lidar).
+               - Support & Wellness: Psychological Services (call 2710031 or 2844430), Training & Placement Cell, Anti-Ragging Cell, Yoga Village.
+               - Labs: DigiFac Labs for high-performance computing, Core Labs.
+            4. If they ask about startups, route them to a-hub or NASSCOM. If they ask about mental health, give the Psychological Services number. If they ask about research/GATE, route them to the Central Library or Research Centres.
         """.trimIndent()
 
         // Construct the OpenRouter payload
@@ -173,8 +181,8 @@ class ChatbotActivity : AppCompatActivity() {
                 val request = Request.Builder()
                     .url("https://openrouter.ai/api/v1/chat/completions")
                     .addHeader("Authorization", "Bearer $apiKey")
-                    .addHeader("HTTP-Referer", "https://unfazed.app") // Required by OpenRouter
-                    .addHeader("X-Title", "Unfazed Student OS") // Required by OpenRouter
+                    .addHeader("HTTP-Referer", "https://unfazed.app")
+                    .addHeader("X-Title", "Unfazed Student OS")
                     .post(body)
                     .build()
 
@@ -213,12 +221,14 @@ class ChatbotActivity : AppCompatActivity() {
         return """
             👋 Hey $userName!
             
-            I'm Unfazed AI, your personal Andhra University intelligence engine. I can see you are focusing on $userGoal in $userBranch.
+            I'm Unfazed AI, your personal Andhra University intelligence engine. I know all about AU's campus—from the Central Library to the NASSCOM Centre of Excellence!
+            
+            I see you are focusing on $userGoal in $userBranch.
             
             💡 Try asking me:
-            • "What should my resume look like for $userGoal?"
-            • "What are the best electives for a $userYear student?"
-            • "How do I prepare for technical interviews?"
+            • "How can I start a company at a-hub?"
+            • "What research centers are available for my branch?"
+            • "How do I prepare for my goals using campus resources?"
             
             What's on your mind?
         """.trimIndent()
