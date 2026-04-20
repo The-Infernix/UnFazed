@@ -1,5 +1,6 @@
 package com.example.unfazed
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -41,7 +41,8 @@ class CampusResourcesActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Campus Resources"
+        supportActionBar?.title = "AU Campus Resources"
+        toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }
 
     private fun initViews() {
@@ -54,9 +55,12 @@ class CampusResourcesActivity : AppCompatActivity() {
         chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
             when (checkedIds.firstOrNull()) {
                 R.id.chipAll -> currentFilter = "All"
-                R.id.chipLabs -> currentFilter = "Lab"
                 R.id.chipLibraries -> currentFilter = "Library"
                 R.id.chipFacilities -> currentFilter = "Facility"
+                R.id.chipWellness -> currentFilter = "Wellness"
+                R.id.chipSupport -> currentFilter = "Support"
+                R.id.chipResearch -> currentFilter = "Research" // 🆕 New Filter
+                else -> currentFilter = "All"
             }
             filterResources()
         }
@@ -85,140 +89,136 @@ class CampusResourcesActivity : AppCompatActivity() {
         }
     }
 
+    // 🧠 THE EXPANDED ANDHRA UNIVERSITY DATABASE
     private fun getAllResources(): List<CampusResource> {
         return listOf(
-            // Libraries
+            // 🔬 ADVANCED RESEARCH CENTRES (New!)
             CampusResource(
-                name = "Central Library",
-                type = "Library",
-                description = "Largest library on campus with 50,000+ books, journals, and digital resources. Silent study zones available.",
-                location = "Block A, 2nd Floor",
-                accessInfo = "Student ID required. Open Mon-Sat: 8 AM - 10 PM, Sun: 10 AM - 6 PM",
-                icon = "📚",
-                features = listOf("WiFi", "AC", "Digital Section", "Study Rooms")
+                name = "Centre for Cyber Security, AI-ML & Data Analytics",
+                type = "Research",
+                description = "Advanced multi-disciplinary research centre executing projects addressing contemporary tech challenges in AI, Machine Learning, and Cyber Security.",
+                location = "AU Campus",
+                accessInfo = "Open for research scholars and specialized B.Tech/M.Tech projects.",
+                icon = "🛡️",
+                features = listOf("AI/ML Models", "Cyber Security Research", "Data Analytics")
             ),
             CampusResource(
-                name = "Digital Library",
-                type = "Library",
-                description = "Access to online journals, e-books, and research papers. IEEE, Springer, ScienceDirect access.",
-                location = "Block A, 3rd Floor",
-                accessInfo = "24/7 access with student login credentials",
-                icon = "💻",
-                features = listOf("Online Access", "Printing", "Research Support")
+                name = "Centre for Nanotechnology & CoE",
+                type = "Research",
+                description = "State-of-the-art Centre of Excellence focused on Nanotechnology research and material sciences.",
+                location = "AU Science Campus",
+                accessInfo = "Prior permission required from Centre Director.",
+                icon = "🧬",
+                features = listOf("Nanomaterials", "Advanced Synthesis", "Centre of Excellence")
             ),
             CampusResource(
-                name = "Department Library",
-                type = "Library",
-                description = "Subject-specific books and reference materials for $branch students.",
-                location = "$branch Department, 1st Floor",
-                accessInfo = "Department hours: 9 AM - 5 PM",
-                icon = "📖",
-                features = listOf("Subject Experts", "Previous Year Papers", "Reference Books")
-            ),
-
-            // Labs
-            CampusResource(
-                name = "Computer Labs",
-                type = "Lab",
-                description = "Modern computer labs with high-end systems. All required software installed.",
-                location = "Block B, Ground Floor",
-                accessInfo = "Open lab: 9 AM - 8 PM. Book online for project work.",
-                icon = "🖥️",
-                features = listOf("100+ Systems", "Latest Software", "Printing", "24/7 Project Lab")
+                name = "Centre for Intellectual Property Rights",
+                type = "Research",
+                description = "Provides crucial guidance for students and faculty on filing patents, copyrights, and protecting innovative ideas.",
+                location = "AU Campus",
+                accessInfo = "Walk-in for consultation on IP.",
+                icon = "©️",
+                features = listOf("Patent Filing", "Copyrights", "Innovation Protection")
             ),
             CampusResource(
-                name = "${branch} Core Lab",
-                type = "Lab",
-                description = getCoreLabDescription(),
-                location = "$branch Department, Ground Floor",
-                accessInfo = "Faculty permission required. Lab hours: 9 AM - 6 PM",
-                icon = "🔬",
-                features = getCoreLabFeatures()
-            ),
-            CampusResource(
-                name = "Research Lab",
-                type = "Lab",
-                description = "Advanced research facility for final year projects and PhD work.",
-                location = "Block D, 2nd Floor",
-                accessInfo = "By appointment only. Contact research coordinator.",
-                icon = "🧪",
-                features = listOf("Research Equipment", "Mentorship", "Publication Support")
-            ),
-            CampusResource(
-                name = "Project Lab",
-                type = "Lab",
-                description = "24/7 lab for project work and competitive coding practice.",
-                location = "Block B, 1st Floor",
-                accessInfo = "24/7 access with ID card. First-come basis.",
-                icon = "💡",
-                features = listOf("24/7 Access", "Projector", "Whiteboard", "Discussion Area")
+                name = "AU Skill Development Centre",
+                type = "Support",
+                description = "Dedicated to upskilling students to make them industry-ready with contemporary tools and methodologies.",
+                location = "AU Campus",
+                accessInfo = "Check for upcoming batch enrollments.",
+                icon = "📈",
+                features = listOf("Industry Training", "Certifications", "Soft Skills")
             ),
 
-            // Facilities
+            // 🚀 INCUBATION & INNOVATION
             CampusResource(
-                name = "Career Development Center",
+                name = "a-hub (AU Incubation Council)",
                 type = "Facility",
-                description = "Placement training, resume reviews, mock interviews, and career counseling.",
-                location = "Admin Block, Room 101",
-                accessInfo = "Walk-in: Mon-Fri 10 AM - 4 PM. Appointment preferred.",
-                icon = "💼",
-                features = listOf("Resume Review", "Mock Interviews", "Workshops", "Placement Updates")
-            ),
-            CampusResource(
-                name = "Entrepreneurship Cell",
-                type = "Facility",
-                description = "Support for student startups, incubation, and funding guidance.",
-                location = "Student Activity Center",
-                accessInfo = "Join as member. Monthly meetups every 1st Saturday.",
+                description = "Provides an environment to translate knowledge and innovation into successful entrepreneurs. Helps in contributing to local economy and employment generation.",
+                location = "P8JC+WF7, AU North Campus",
+                accessInfo = "Open to student innovators and startups.",
                 icon = "🚀",
-                features = listOf("Mentorship", "Networking", "Funding Support", "Workshops")
+                features = listOf("Incubation Space", "Entrepreneurial Ecosystem", "Startup Support")
             ),
             CampusResource(
-                name = "Research Cell",
+                name = "NASSCOM Centre of Excellence (IoT & AI)",
                 type = "Facility",
-                description = "Guidance for research papers, patents, and conference submissions.",
-                location = "Block D, 3rd Floor",
-                accessInfo = "Faculty mentorship available. Submit research proposal.",
-                icon = "📝",
-                features = listOf("Paper Writing", "Conference Support", "Patent Filing", "Collaboration")
+                description = "Creates innovative applications across verticals (Smart City, Smart Health, Agriculture). Builds industry-capable talent and startup communities for IoT and AI.",
+                location = "North Campus, opp. Dept of Marine Engineering",
+                accessInfo = "Accessible for R&D, startups, and training.",
+                icon = "🤖",
+                features = listOf("IoT & AI Tech Stacks", "R&D Neutral Labs", "End-to-End Solutions")
+            ),
+
+            // 📚 LIBRARIES & LABS
+            CampusResource(
+                name = "Dr. V.S. Krishna Central Library",
+                type = "Library",
+                description = "One of the biggest libraries in the country with ~4,00,000 books. Subscribes to national and international journals.",
+                location = "AU Central Campus",
+                accessInfo = "Reading Room and Text Book section open 24/7",
+                icon = "📚",
+                features = listOf("24/7 Reading Room", "400k+ Books", "International Journals")
             ),
             CampusResource(
-                name = "Student Activity Center",
-                type = "Facility",
-                description = "Hub for student clubs, events, and extracurricular activities.",
-                location = "Near Canteen",
-                accessInfo = "Open 8 AM - 8 PM. Book rooms through student portal.",
-                icon = "🎯",
-                features = listOf("Club Rooms", "Event Space", "Cafeteria", "Recreation")
+                name = "AUCEW Computer Labs & Campus WiFi",
+                type = "Lab",
+                description = "Four computer labs provided with 300 Mbps dedicated internet from A.U. Computer Centre. Entire college is connected via APSFL Intranet and WiFi.",
+                location = "AUCEW Campus",
+                accessInfo = "Student login credentials required for WiFi access.",
+                icon = "🌐",
+                features = listOf("300 Mbps High-Speed Line", "Campus-wide WiFi", "Intranet Access")
             ),
             CampusResource(
-                name = "Makerspace",
+                name = "Advanced Analytical Laboratory (AAL)",
+                type = "Lab",
+                description = "Houses highly specialized scientific instruments including a Scanning Electron Microscope (SEM) and Micropulse Lidar.",
+                location = "Various Science Depts",
+                accessInfo = "Prior permission required from respective HODs.",
+                icon = "🔬",
+                features = listOf("Scanning Electron Microscope", "Atmospheric Aerosol Profiling", "Advanced Instrumentation")
+            ),
+
+            // 🛡️ STUDENT SUPPORT
+            CampusResource(
+                name = "Anti-Ragging & Grievance Redressal Cell",
+                type = "Support",
+                description = "Ensures a 100% ragging-free campus. Addresses grievances in association with the Women's Grievance Cell and Internal Complaints Committee (ICC).",
+                location = "Principal's Office / Admin Block",
+                accessInfo = "Strictly confidential. Available for all students.",
+                icon = "🛡️",
+                features = listOf("Zero Tolerance Policy", "Women's Grievance Cell", "Internal Complaints Committee")
+            ),
+            CampusResource(
+                name = "Training & Placement Cell",
+                type = "Support",
+                description = "Dedicated cell for employment information, career guidance bureau, and campus placement drives.",
+                location = "AU Campus",
+                accessInfo = "Walk-in during working hours.",
+                icon = "💼",
+                features = listOf("Campus Placements", "Career Guidance", "Employment Info")
+            ),
+
+            // 🏥 WELLNESS & SPORTS
+            CampusResource(
+                name = "Sports Complex & Indoor Playgrounds",
                 type = "Facility",
-                description = "Workshop with 3D printers, CNC machines, and prototyping tools.",
-                location = "Block C, Basement",
-                accessInfo = "Training required first. Then 24/7 access for members.",
-                icon = "⚙️",
-                features = listOf("3D Printers", "CNC", "Electronics", "Woodworking")
+                description = "Includes open-air grounds (Silver & Golden Jubilee) for Tennis, Shuttle Badminton, and Throw Ball, plus indoor facilities for Chess, Carroms, and a Gymnasium.",
+                location = "College Campus",
+                accessInfo = "Open to all registered AU students.",
+                icon = "🏸",
+                features = listOf("Indoor Games", "Outdoor Courts", "Gymnasium")
+            ),
+            CampusResource(
+                name = "Psychological Services",
+                type = "Wellness",
+                description = "Professional psychological assessment and counseling available for student well-being and stress management.",
+                location = "Department of Psychology and Parapsychology",
+                accessInfo = "Prior appointment required. Call: 2710031 or 2844430.",
+                icon = "🧠",
+                features = listOf("Mental Health Support", "Stress Counseling", "Assessments")
             )
         )
-    }
-
-    private fun getCoreLabDescription(): String {
-        return when {
-            branch.contains("CSE") -> "Programming lab with AI/ML setup, cloud access, and development tools."
-            branch.contains("ECE") -> "Electronics lab with oscilloscopes, signal generators, and FPGA kits."
-            branch.contains("EEE") -> "Electrical machines lab with motors, generators, and power systems."
-            else -> "Department lab with specialized equipment for $branch students."
-        }
-    }
-
-    private fun getCoreLabFeatures(): List<String> {
-        return when {
-            branch.contains("CSE") -> listOf("High-End PCs", "GPU Servers", "Cloud Access", "Latest IDEs")
-            branch.contains("ECE") -> listOf("Oscilloscopes", "FPGA Kits", "Microcontrollers", "PCB Design")
-            branch.contains("EEE") -> listOf("Motor Control", "Power Systems", "PLC Training", "Simulation Software")
-            else -> listOf("Specialized Equipment", "Expert Guidance", "Project Support")
-        }
     }
 
     // Data class
@@ -266,25 +266,25 @@ class CampusResourcesActivity : AppCompatActivity() {
                 tvLocation.text = "📍 ${resource.location}"
                 tvAccess.text = "🔑 ${resource.accessInfo}"
 
-                // Set type-specific styling
-                when (resource.type) {
-                    "Library" -> tvType.setBackgroundColor(itemView.context.getColor(R.color.primary))
-                    "Lab" -> tvType.setBackgroundColor(itemView.context.getColor(R.color.secondary))
-                    "Facility" -> tvType.setBackgroundColor(itemView.context.getColor(R.color.success))
+                // 🎨 Modernized Color Coding based on resource type
+                val tagColor = when (resource.type) {
+                    "Library" -> "#6C63FF" // Purple
+                    "Facility" -> "#F59E0B" // Amber
+                    "Wellness" -> "#10B981" // Emerald Green
+                    "Support" -> "#EC4899" // Pink
+                    "Lab" -> "#06B6D4" // Cyan
+                    "Research" -> "#6366F1" // 🆕 Deep Indigo for Research Centres
+                    else -> "#64748B" // Slate Gray
                 }
+                tvType.setBackgroundColor(Color.parseColor(tagColor))
 
-                btnMoreInfo.setOnClickListener {
-                    showResourceDetails(resource)
-                }
-
-                cardView.setOnClickListener {
-                    showResourceDetails(resource)
-                }
+                btnMoreInfo.setOnClickListener { showResourceDetails(resource) }
+                cardView.setOnClickListener { showResourceDetails(resource) }
             }
 
             private fun showResourceDetails(resource: CampusResource) {
                 val featuresText = if (resource.features.isNotEmpty()) {
-                    "\n\n✨ Features:\n" + resource.features.joinToString("\n") { "• $it" }
+                    "\n\n✨ Key Highlights:\n" + resource.features.joinToString("\n") { "• $it" }
                 } else ""
 
                 MaterialAlertDialogBuilder(itemView.context)
@@ -295,25 +295,10 @@ class CampusResourcesActivity : AppCompatActivity() {
                         📍 Location: ${resource.location}
                         🔑 Access: ${resource.accessInfo}
                         $featuresText
-                        
-                        💡 Tip: Visit during off-peak hours for better experience!
                     """.trimIndent())
-                    .setPositiveButton("Got it") { _, _ -> }
-                    .setNeutralButton("Get Directions") { _, _ ->
-                        // Show location in maps or provide directions
-                        MaterialAlertDialogBuilder(itemView.context)
-                            .setTitle("Location: ${resource.location}")
-                            .setMessage("Ask any student or staff for directions to ${resource.location}. It's a well-known location on campus.")
-                            .setPositiveButton("OK", null)
-                            .show()
-                    }
+                    .setPositiveButton("Got it", null)
                     .show()
             }
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressedDispatcher.onBackPressed()
-        return true
     }
 }

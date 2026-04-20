@@ -36,13 +36,6 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipLabs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Labs"
-                style="@style/Widget.MaterialComponents.Chip.Choice"/>
-
-            <com.google.android.material.chip.Chip
                 android:id="@+id/chipLibraries"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,11 +43,33 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"/>
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chipWellness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Health &amp; Wellness"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
                 android:id="@+id/chipFacilities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Facilities"
+                android:text="Facilities &amp; Sports"
                 style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSupport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Student Support"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipResearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Research Centres"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
