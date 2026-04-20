@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
             // ⚠️ UX FIX: Warn the user if they miss a field
             if (name.isEmpty() || branch.isEmpty() || year.isEmpty() || goal.isEmpty()) {
-                Toast.makeText(this, "Please fill out all fields to continue", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please fill out all fields to continue to next", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
